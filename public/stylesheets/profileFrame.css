@@ -1,0 +1,47 @@
+body {
+    padding-top: 100px;
+}
+
+.sidebar-nav {
+    height: 600px;
+}
+
+.profileImage {
+    height: 200px;
+    weight: 200px;
+}
+
+.profileImage img {
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+    display: block;
+}
+
+.username {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    font-size: 30px;
+    font-family: impact;
+    font-weight: 300;
+    text-align: center;
+}
+
+.quickLinkText {
+    font-size: 20px;
+    font-family: fantasy;
+    font-style: oblique;
+    text-align: center;
+}
+
+.customNumber1 {
+    font-size: 22px;
+    font-family: verdana;
+    text-align: center;
+    font-weight: bold;
+}
+
+.profileButton1 {
+    margin-top: 50px;
+    
+}

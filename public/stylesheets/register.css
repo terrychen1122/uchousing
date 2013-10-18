@@ -1,0 +1,67 @@
+body {
+    padding-top: 100px;
+}
+
+.noButtomMargin {
+    margin-bottom: 0px;
+}
+
+.noTopMargin {
+    margin-top: 0px;
+}
+
+.noButtomPadding {
+    padding-bottom: 0px;
+}
+
+.star {
+    color: red;
+    font-size: 14px;
+}
+
+.star-adjacent {
+    position: relative;
+    left:-10px;
+}
+
+.error {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.help-block {
+    position: relative;
+    left: 5px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-style: italic;
+    font-size: 12px;
+}
+
+.customButton {
+    margin:auto;
+    width:45%;
+}
+
+/* placeholder style */
+::-webkit-input-placeholder {
+   font-style: italic;
+   font-size: 12px;
+}
+
+:-moz-placeholder {
+   font-style: italic;  
+    font-size: 12px;
+}
+
+::-moz-placeholder { 
+   font-style: italic;  
+    font-size: 12px;
+}
+
+:-ms-input-placeholder {  
+   font-style: italic;
+    font-size: 12px;
+}
+
+/* ---- End placeholder style */

@@ -1,0 +1,159 @@
+@(form: Form[Users])
+
+@implicitFieldConstructor = @{ helper.FieldConstructor(twitterBootstrapRegisterInput.render) } 
+
+@main("Register", null ,3 ) {
+	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
+	
+	@helper.form(routes.Application.processRegistration, 'class -> "form-horizontal", 'role -> "form") {
+		<div class="col-md-8 col-md-offset-2 well">
+			<div class="form-group">
+				<div class="col-md-2 col-md-offset-5">
+					<h4>Registration</h4>
+				</div>
+			</div>
+			<div class="form-group noButtomMargin">
+				<div class="col-md-2 col-md-offset-2">
+					<p style="font-size:10px"><span class="star">*</span>  Required</p>
+				</div>
+			</div>
+				
+			@if(form.hasGlobalErrors) { 
+                <div class="form-group error">
+               		<div class="col-md-4 col-md-offset-4">
+                   		<p class="text-center text-danger">@form.globalError.message</p>
+               		</div>
+               	</div>
+           	}
+           	<div class="form-group noButtomMargin">
+           		<div class="col-md-3 col-md-offset-2 noButtomMargin noTopMargin">
+           			<p style="font-size:13px " class="noButtomMargin">Basic Information</p>
+           		</div>
+			</div>
+			<div class="form-group noTopMargin" >
+				<div class="col-md-8 col-md-offset-2">
+           			<hr class="noTopMargin noButtomMargin">
+           	</div>
+           	</div>
+           	
+           	<fieldset>
+           		<div class="form-group">
+            		@helper.inputText(
+            			form("email"), 
+            			'class -> "form-control",
+           				'id -> "inputEmail",
+           				'_label -> "Email",
+           				'type -> "email",
+           				'name -> "email",
+           				'placeholder -> "Email"
+           				)
+           	 	</div>
+            	
+            	<div class="form-group">
+            		@helper.inputText(
+            			form("name"),
+            			'class -> "form-control",
+            			'id -> "inputName",
+            			'_label -> "User Name",
+            			'name -> "name",
+            			'placeholder -> "User name"
+            			)
+            	</div>
+            	
+            	<div class="form-group">
+            		@helper.inputText(
+            			form("passwd"), 
+            			'class -> "form-control",
+            			'id -> "inputPassword1",
+            			'_label -> "Password",
+            			'type -> "password",
+            			'name -> "password",
+            			'placeholder -> "Password"
+            			)
+            		<span class="help-block col-md-offset-4 col-md-4">at least 6 characters</span>
+            	</div>
+            	
+        		<!-- TODO: Confirm Password -->
+            	
+            	<div class="form-group">
+            		@helper.inputText(
+            			form("phone"),
+            			'class -> "form-control",
+            			'id -> "inputPhone",
+            			'_label -> "Phone",
+            			'name -> "phone",
+            			'placeholder -> "Phone number"
+            			)
+            		<span class="help-block col-md-offset-4 col-md-4">format: (123-456-7890)</span>
+            	</div>
+            	
+            	<div class="form-group noButtomMargin">
+           			<div class="col-md-3 col-md-offset-2 noButtomMargin noTopMargin">
+           				<p style="font-size:13px" class="noButtomMargin">User Preference</p>
+           			</div>
+				</div>
+				<div class="form-group noTopMargin" >
+					<div class="col-md-8 col-md-offset-2">
+           				<hr class="noTopMargin noButtomMargin">
+           			</div>
+           		</div>
+            	
+            	<div class="form-group">
+            		@helper.select(
+                		form("preferredType"), 
+                		helper.options(HouseType.options), 
+                		'id -> "inputHouseType",
+                		'_label -> "House type", '_default -> "Preferred house type",
+                		'_showConstraints -> false,
+                		'class -> "form-control"
+            		)
+            	</div>
+            	
+            	<div class="form-group">
+            		@helper.select(
+            			form("neighbor1"),
+            			helper.options(Neighborhood.options),
+            			'id -> "inputNeighborType",
+            			'_label -> "Neighbor type", 
+            			'_default -> "-- Choose your first choice --",
+            			'_showConstraints -> false,
+            			'class -> "form-control"
+            		)
+            	</div>
+            	
+            	<div class="form-group">
+            		@helper.select(
+            			form("neighbor2"),
+            			helper.options(Neighborhood.options),
+            			'_label -> "Neighbor type", 
+            			'_default -> "-- Choose your second choice --",
+            			'_showConstraints -> false,
+            			'class -> "form-control"
+            		)
+            	</div>
+            	
+            	<div class="form-group">
+            		@helper.select(
+            			form("neighbor2"),
+            			helper.options(Neighborhood.options),
+            			'_label -> "Neighbor type", 
+            			'_default -> "-- Choose your third choice --",
+            			'_showConstraints -> false,
+            			'class -> "form-control"
+            		)
+            	</div>
+            	
+            </fieldset>
+				
+			<div class="form-group actions">
+				<div class="col-md-offset-4 col-md-4">
+            		<input type="submit" value="Register" class="btn btn-primary customButton"> or 
+           	 		<a href="@routes.Application.index()" class="btn btn-default customButton">Cancel</a> 
+           	 	</div>
+       		 </div>
+				
+			
+		</div>
+	
+	}
+}

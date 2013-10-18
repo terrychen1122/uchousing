@@ -1,0 +1,84 @@
+@(form: Form[Application.Login])
+
+@implicitFieldConstructor = @{ helper.FieldConstructor(twitterBootstrapInput.render) } 
+
+@main("Log In", null ,3 ) {
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/login.css")">
+	
+	@helper.form(routes.Application.authenticate, 'class -> "form-horizontal customForm", 'role -> "form") {
+			
+			<div class="col-md-8 col-md-offset-2 well">
+			<div class="form-group ">
+				<div class="col-md-2 col-md-offset-5">
+					<h4 class="text-center">Sign in</h4>
+				</div>
+			</div>
+            
+            @if(form.hasGlobalErrors) { 
+                	<div class="form-group error">
+                		<div class="col-md-4 col-md-offset-4">
+                    		<p class="text-center text-danger">@form.globalError.message</p>
+                		</div>
+                	</div>
+            }
+            
+            @if(flash.contains("success")) {
+                <p class="success">
+                    @flash.get("success")
+                </p>
+            }
+            <fieldset>
+            	<!-- <div class="form-group">
+            		<label for="inputEmail1" class="col-md-4 col-md-offset-4 ">Email</label><br>
+            		<div class="col-md-4 col-md-offset-4">
+                		<input type="email" class="form-control" id="inputEmail1" name="email" placeholder="Email" value="@form("email").value">
+            		</div>
+            		@if(form.error("email")!=null){
+            		<p class="error">@form.error("email").message</p>
+            		}
+            	</div>
+            	<div class="form-group">
+           			<label for="inputPassword1" class="col-md-4 col-md-offset-4 ">Password</label><br>
+       				<div class="col-md-4 col-md-offset-4">
+                		<input type="password" class="form-control" id="inputPassword1" name="password" placeholder="Password">
+            		</div>
+            		@if(form.error("password")!=null){
+            		<div class="col-md-1 error">
+            			<p class="text-warning">@form.field("password").toString()</p>
+            			}
+            		</div>
+            	</div> -->
+            	
+            	<div class="form-group">
+            		@helper.inputText(
+            			form("email"), 
+            			'class -> "form-control",
+            			'_label -> "Email",
+            			'type -> "email",
+            			'id -> "inputEmail1",
+            			'name -> "email",
+            			'placeholder -> "Email")
+            	</div>
+            	<div class="form-group">
+            		@helper.inputText(
+            			form("password"), 
+            			'class -> "form-control",
+            			'_label -> "Password",
+            			'type -> "password",
+            			'id -> "inputPassword1",
+            			'name -> "email",
+            			'placeholder -> "Password"
+            		)
+            	</div>
+            </fieldset>
+            <div class="form-group">
+            	<div class="col-md-offset-5 col-md-4">
+                <button type="submit" class="btn btn-primary customButton">Login</button>
+            	</div>
+            </div>
+            </div>
+	}
+	
+	
+}

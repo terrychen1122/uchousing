@@ -1,0 +1,80 @@
+@(user: Users, isEditable: Integer)
+	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/profileInfo.css")">
+	<br>
+	<div class="col-md-6 col-md-offset-1 header">
+		<p class="text">Account Information</p>
+	</div>
+	<div class="col-md-10 col-md-offset-1">
+		<hr class="hdivider">
+	</div>
+	
+	<!-- User data -->
+	<div class="col-md-3 col-md-offset-1 info">
+		<p class="text text-right">Username: </p>
+	</div>
+	<div class="col-md-5 info">
+		<p class="infoText">@user.name</p>
+	</div>
+	
+	<div class="col-md-3 col-md-offset-1 info">
+		<p class="text text-right">Email: </p>
+	</div>
+	<div class="col-md-5 info">
+		<p class="infoText">@user.email</p>
+	</div>
+	
+	<div class="col-md-3 col-md-offset-1 info">
+		<p class="text text-right">Role: </p>
+	</div>
+	<div class="col-md-5 info">
+		@if(user.isHouseProvider==1){
+		<p class="infoText">House Provider</p>
+		}else{
+		<p class="infoText">Normal User</p>
+		}
+	</div>
+	
+	<div class="col-md-3 col-md-offset-1 info">
+		<p class="text text-right">Phone: </p>
+	</div>
+	<div class="col-md-5 info">
+		<p class="infoText">@user.phone</p>
+	</div>
+	
+	<div class="col-md-3 col-md-offset-1 info">
+		<p class="text text-right">Preferred Type: </p>
+	</div>
+	<div class="col-md-5 info">
+		<p class="infoText">@user.preferredType</p>
+	</div>
+	
+	<div class="col-md-3 col-md-offset-1 info">
+		<p class="text text-right">Neighbor preference: </p>
+	</div>
+	<div class="col-md-5 info">
+		<p class="infoText">@user.neighbor1</p>
+	</div>
+	
+	@if(user.neighbor2!=null){
+		<div class="col-md-3 col-md-offset-1 info">
+		<p class="text text-right">Neighbor preference: </p>
+		</div>
+		<div class="col-md-5 info">
+			<p class="infoText">@user.neighbor2</p>
+		</div>
+	}
+	@if(user.neighbor3!=null){
+		<div class="col-md-3 col-md-offset-1 info">
+			<p class="text text-right">Neighbor preference 3: </p>
+		</div>
+		<div class="col-md-5 info">
+			<p class="infoText">@user.neighbor3</p>
+		</div>
+	}
+	
+	@if(isEditable==1){
+		<br>
+		<div class="col-md-2 col-md-offset-3 editButton">
+			<a href="#" class="btn btn-primary btn-sm">Edit</a>
+		</div>
+	}

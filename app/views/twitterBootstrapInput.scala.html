@@ -1,0 +1,15 @@
+@(elements: helper.FieldElements)
+
+@**************************************************
+* Generate input according twitter bootsrap rules *
+**************************************************@
+<div class="clearfix @if(elements.hasErrors) {has-error}">
+    <label for="@elements.id" class="col-md-4 col-md-offset-4 ">@elements.label</label><br>
+    <div class="col-md-4 col-md-offset-4">
+		@elements.input
+	</div>
+	<div class="col-md-4 error">
+		<span class="help-block">@elements.errors</span>
+	</div>
+</div>
+

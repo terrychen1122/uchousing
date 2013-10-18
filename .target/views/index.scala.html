@@ -1,0 +1,61 @@
+@(title: String, user: Users, posts: com.avaje.ebean.Page[House])
+
+@main(title, user, 0) {
+    	<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/index.css")">
+    	
+    	<div id="housing-carousel" class="carousel slide">
+  			<!-- Indicators -->
+  			<ol class="carousel-indicators">
+    			<li data-target="#housing-carousel" data-slide-to="0" class="active"></li>
+    			<li data-target="#housing-carousel" data-slide-to="1"></li>
+    			<li data-target="#housing-carousel" data-slide-to="2"></li>
+  			</ol>
+	
+  			<!-- Wrapper for slides -->
+  			<div class="carousel-inner">
+   				<div class="item active" style="height:500px"><img src="@routes.Assets.at("images/image1.jpg")" alt="0"></div>
+    			<div class="item" style="height:500px"><img src="@routes.Assets.at("images/image2.jpg")" alt="1"></div>
+    			<div class="item" style="height:500px"><img src="@routes.Assets.at("images/image3.jpg")" alt="2"></div>
+  			</div>
+	
+  			<!-- Controls -->
+  			<a class="left carousel-control" href="#housing-carousel" data-slide="prev">
+    			<span class="glyphicon glyphicon-chevron-left"></span>
+  			</a>
+  			<a class="right carousel-control" href="#housing-carousel" data-slide="next">
+    			<span class="glyphicon glyphicon-chevron-right"></span>
+  			</a>
+		</div>
+		
+		<div class="container well posting">
+			<div class="row title">
+				<h4>Recent Updates:</h4>
+			</div>
+			<div class="row posts">
+				<div class="col-lg-3">
+					<h2>House name</h2>
+					<p>House Description</p>
+					<p><a class="btn btn-default" href="#">View Details</a></p>
+				</div>
+				<div class="col-lg-3">
+					<h2>House name</h2>
+					<p>House Description</p>
+					<p><a class="btn btn-default" href="#">View Details</a></p>
+				</div>
+				<div class="col-lg-3">
+					<h2>House name</h2>
+					<p>House Description</p>
+					<p><a class="btn btn-default" href="#">View Details</a></p>
+				</div>
+				<div class="col-lg-3">
+					<h2>House name</h2>
+					<p>House Description</p>
+					<p><a class="btn btn-default" href="#">View Details</a></p>
+				</div>
+			</div>
+		</div>
+		
+		<hr class="posting-divider">
+		
+    
+}

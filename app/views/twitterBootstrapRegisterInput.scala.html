@@ -1,0 +1,24 @@
+@(elements: helper.FieldElements)
+
+@**************************************************
+* Generate input according twitter bootsrap rules *
+**************************************************@
+<div class="clearfix @if(elements.hasErrors) {has-error}">
+    <label for="@elements.id" class="col-md-2 col-md-offset-2  control-label">@elements.label</label>
+    <div class="col-md-4 ">
+		@elements.input
+	</div>
+	@if(elements.id.equals("inputEmail")||
+		elements.id.equals("inputName")||
+		elements.id.equals("inputPassword1")||
+		elements.id.equals("inputPhone")||
+		elements.id.equals("inputHouseType")||
+		elements.id.equals("inputNeighborType")){
+	<span class="star star-adjacent">*</span>
+	}
+	
+	<div class="col-md-4 error">
+		<span class="help-block">@elements.errors</span>
+	</div>
+</div>
+

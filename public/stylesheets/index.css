@@ -1,0 +1,23 @@
+body {
+    padding-top: 50px;
+}
+
+.posting {
+    margin-top: 20px;
+}
+
+.posting .col-lg-3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.posting .title h4{
+    position: relative;
+    left: 40px;
+    
+}
+
+.posting-divider {
+  margin: 50px 0; 
+}
+

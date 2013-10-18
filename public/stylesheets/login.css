@@ -1,0 +1,49 @@
+body {
+    padding-top: 100px;
+}
+
+.customForm {
+    position: relative;
+    top: 120px;
+}
+
+.error {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.help-block{
+    visibility: hidden;
+}
+
+.has-error .help-block{
+    visibility: visible;
+}
+
+.customButton {
+    margin:auto;
+    width:45%;
+}
+
+/* placeholder style */
+::-webkit-input-placeholder {
+   font-style: italic;
+   font-size: 12px;
+}
+
+:-moz-placeholder {
+   font-style: italic;  
+    font-size: 12px;
+}
+
+::-moz-placeholder { 
+   font-style: italic;  
+    font-size: 12px;
+}
+
+:-ms-input-placeholder {  
+   font-style: italic;
+    font-size: 12px;
+}
+
+/* ---- End placeholder style */
