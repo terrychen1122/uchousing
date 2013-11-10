@@ -4,11 +4,14 @@
 * Generate input according twitter bootsrap rules *
 **************************************************@
 <div class="clearfix @if(elements.hasErrors) {has-error}">
-    <label for="@elements.id" class="col-md-2 col-md-offset-2  control-label">@elements.label</label>
-    <div class="col-md-4 ">
+	<div class="col-md-7 col-md-offset-2">
+    <label for="@elements.id" class="control-label text">@elements.label
+    	@if(!elements.id.equals("requirement")&&(!elements.id.equals("desc"))&&(!elements.id.equals("address2"))){
+    	<span class="star">*</span>
+    	}
+    </label>
 		@elements.input
 	</div>
-	<span class="star star-adjacent">*</span>
 	
 	<div class="col-md-4 error">
 		<span class="help-block">@elements.errors</span>

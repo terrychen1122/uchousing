@@ -1,0 +1,32 @@
+@(user: Users, isEditable: Integer)
+	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/profileInfo.css")">
+	
+	<style>
+		.text > a {
+			color: black;
+		}
+	</style>
+	
+	<br>
+	<div class="col-md-6 col-md-offset-1 header">
+		<p class="text">User Following</p>
+	</div>
+	<div class="col-md-10 col-md-offset-1">
+		<hr class="hdivider">
+	</div>
+	
+	<div class="col-md-10 col-md-offset-1">
+		@user.followTo.map { follow =>
+           <div class="col-md-3 info">
+           		<p class="text">follow.name</p>
+			</div>
+			<div class="col-md-3 info">
+				<p class="text">follow.email</p>
+			</div>
+			<div class="col-md-3 info">
+				<p class="text">follow.phone</p>
+			</div>
+        }
+        
+	</div>
+	

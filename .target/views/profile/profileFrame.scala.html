@@ -1,0 +1,232 @@
+@(user: Users, logUser: Users, isEditable: Integer, mainWindow: String, form: Form[UserProfile.Profile], providerForm: Form[HouseProvider])
+
+@implicitFieldConstructor = @{ helper.FieldConstructor(twitterBootstrapApplicationInput.render) }
+
+@main("Profile", logUser, 3) {
+	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/profileFrame.css")">
+	<script language="javascript" type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script>
+	
+	<div class="col-xs-6 col-sm-4 sidebar-offcanvas" id="sidebar" role="navigation">
+		<div class="well sidebar-nav">
+			<br>
+			<div class="profileImage">
+				<img id="profilePic" src="@routes.Assets.at("images/profile_pic/" + user.profileImage)" alt="profileImage" class="img-thumbnail" data-toggle="tooltip" title="Click to change profile picture">
+			</div>
+			<p class ="username"><a href="@routes.UserProfile.profile(user.email)">@user.name</a></p>
+			<br>
+			<hr>
+			
+			<!-- Show subscribe, follow, and listing -->
+			<div class="col-sm-3">
+				<p class="text-center quickLinkText">Subscribe</p>
+			</div>
+			<div class="col-sm-3 col-sm-offset-1">
+				<p class="text-center quickLinkText">Follow</p>
+			</div>
+			<div class="col-sm-3 col-sm-offset-1">
+				<p class="text-center quickLinkText">Listing</p>
+			</div>
+			<!-- number of subscribe, follow, and listing -->
+			<div class="col-sm-3">
+				<p class="text-center customNumber1"><a href="@routes.UserProfile.getSubscribe(user.email)">@user.subscribeTo.length</a></p>
+			</div>
+			<div class="col-sm-3 col-sm-offset-1">
+				<p class="text-center customNumber1"><a href="@routes.UserProfile.getFollow(user.email)">@user.followTo.length</a></p>
+			</div>
+			<div class="col-sm-3 col-sm-offset-1">
+				@if(user.isHouseProvider==1){
+					<p class="text-center customNumber1"><a href="#">@House.findListing(user.email).size</a></p>
+				}else{
+					<p class="text-center customNumber1">0</p>
+				}
+			</div>
+			<br>
+			<!-- Button to edit profile or apply for house provider -->
+			@if(isEditable==1){
+				<div class="col-md-10 col-md-offset-2 profileButton1">
+					@if(user.isHouseProvider==0){
+						<a data-toggle="modal" href="#ApplicationModal" class="btn btn-info">Apply for Houses Provider</a>
+					}else{
+						<a href="@routes.ProviderProfile.profile(user.email)" class="btn btn-info">House Provider Profile</a>
+					}
+				</div>
+			}
+		</div>
+	</div>
+	
+	<div class="modal fade" id="uploadModal" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+		<div class ="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dimiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Upload your profile image</h4>
+				</div>
+				<div class="modal-body">
+					@helper.form(routes.UserProfile.profileImageUpload(user.email), 'enctype -> "multipart/form-data", 'class -> "form-horizontal", 'role -> "form") {
+					<div class="form-group upload-form">
+						<input type="file" class="form-control" name="picture" accept="image/*">
+					</div>
+				</div>
+				<div class="modal-footer form-group action">
+          			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          			<button type="submit" class="btn btn-primary">Submit</button>
+        		</div>
+        			}
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="ApplicationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    	<div class="modal-dialog">
+      		<div class="modal-content">
+        		<div class="modal-header">
+          			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          			<h4 class="modal-title">Apply for House Provider</h4>
+        		</div>
+        		<div class="modal-body">
+          			@helper.form(routes.UserProfile.processApplication(user.email), 'id -> "appForm", 'class -> "form-horizontal", 'role -> "form") {
+						@if(form.hasGlobalErrors) { 
+                			<div class="form-group error">
+               					<div class="col-md-4 col-md-offset-4">
+                   					<p class="text-center text-danger">@form.globalError.message</p>
+               					</div>
+               				</div>
+        				}
+        			<fieldset>
+        				<br>
+        				<div class="form-group">
+            				@helper.inputText(
+            					form("fname"),
+           						'class -> "form-control",
+           						'id -> "fname",
+           						'_label -> "First Name",
+           						'name -> "fname"
+           					)
+           					
+           					@helper.inputText(
+            					form("lname"),
+           						'class -> "form-control",
+           						'id -> "lname",
+           						'_label -> "Last Name",
+           						'name -> "lname"
+           					)
+           					
+           					@helper.inputText(
+            					form("occupation"),
+           						'class -> "form-control",
+           						'id -> "occupation",
+           						'_label -> "Occupation",
+           						'name -> "occupation"
+           					)
+           					
+           					@helper.select(
+            					form("providerType"),
+            					helper.options("individual"->"Individual", "agency"->"Agency", "corporate"->"Corporate"),
+            					'id -> "type",
+            					'_label -> "Type", 
+            					'_default -> "-- Select Type --",
+            					'_showConstraints -> false,
+            					'class -> "form-control"
+            				)
+           					
+           					@helper.inputText(
+            					form("addressLine1"),
+           						'class -> "form-control",
+           						'id -> "address",
+           						'_label -> "Address 1",
+           						'placeholder -> "Number, Street/Road/Ave "
+           					)
+           					
+           					@helper.inputText(
+            					form("addressLine2"),
+           						'class -> "form-control",
+           						'_label -> "Address 2",
+           						'id -> "address2",
+           						'placeholder -> "Suit, Apt, House"
+           					)
+           					
+           					@helper.inputText(
+            					form("city"),
+           						'class -> "form-control",
+           						'id -> "city",
+           						'_label -> "City"
+           					)
+           					
+           					@helper.select(
+            					form("states"),
+            					helper.options(State.options),
+            					'id -> "state",
+            					'_label -> "State", 
+            					'_default -> "-- Select State --",
+            					'_showConstraints -> false,
+            					'class -> "form-control"
+            				)
+            				
+            				@helper.inputText(
+            					form("zipCode"),
+           						'class -> "form-control",
+           						'id -> "zip",
+           						'_label -> "zip"
+           					)
+           					
+           					@helper.textarea(
+           						form("description"),
+           						'class -> "form-control",
+           						'rows -> "3",
+           						'_label -> "Description (Max. 200 characters)",
+           						'id -> "desc"
+           					)
+        				</div>	
+        			</fieldset>
+        			
+        		</div>
+        		<div class="modal-footer form-group action">
+          			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          			<button type="submit" class="btn btn-primary">Submit</button>
+        		</div>
+        		}
+      		</div>
+    	</div>
+  	</div>
+	
+	<div class="main-win well col-md-7 col-sm-offset-0" style="height: 600px">
+		<!-- States for main window section -->
+		@if(mainWindow.equals("info")){
+			@views.html.profile.info(user, isEditable)
+		}
+		@if(mainWindow.equals("edit")){
+			@views.html.profile.edit(user, form)
+		}
+		@if(mainWindow.equals("follow")){
+			@views.html.profile.follow(user, isEditable)
+		}
+		@if(mainWindow.equals("subscribe")){
+			@views.html.profile.subscribe(user, isEditable)
+		}
+	</div>
+	
+	<br>
+	
+	<script>
+		$('#profilePic').click(function(){
+			$('#uploadModal').modal('show');
+		});
+		
+		$('#appForm').validate({
+			rules: {
+				fname: "required",
+				lname: "required",
+				occupation: "required",
+				providerType: "required",
+				addressLine1: "required",
+				city: "required",
+				states: "required",
+				zipCode : {
+					required: true,
+					number: true
+				}
+			}
+		});
+		
+	</script>
+}

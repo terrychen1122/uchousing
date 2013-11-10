@@ -1,0 +1,177 @@
+@(house: House, logUser: Users)
+
+
+@main("House Setting", logUser, 3) {
+	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/pprofile.css")">
+	<script language="javascript" type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 header">
+				<h1>House Setting: @house.name </h1>
+			</div>
+			<div class="col-md-8 col-md-offset-2 well">
+				<form role="form" id="set-house-form" method="post" action="@routes.ProviderProfile.editHouse(house.id)">
+					<div class="form-group">
+          				<div class="clearfix">
+							<div class="col-md-6 col-md-offset-3">
+   								<label for="name" class="control-label text">Name<span class="star">*</span></label>
+								<input type="text" class="form-control" name="name" id="name" value="@house.name">
+							</div>
+						</div>
+       				</div>
+       				<div class="form-group">
+          				<div class="clearfix">
+							<div class="col-md-6 col-md-offset-3">
+   								<label for="houseType" class="control-label text">Type<span class="star">*</span></label>
+   								<select class="form-control" name="houseType">
+   									<option>studio</option>
+   									<option>one bedroom</option>
+   									<option>two bedroom</option>
+  									<option>three bedroom</option>
+   								</select>
+							</div>
+						</div>
+          			</div>
+       				<div class="form-group">
+          				<div class="clearfix">
+							<div class="col-md-6 col-md-offset-3">
+   								<label for="size" class="control-label text">Size<span class="star">*</span></label>
+								<input type="text" class="form-control" name="size" id="size" value="@house.size">
+							</div>
+						</div>
+       				</div>
+       				<div class="form-group">
+          					<div class="clearfix">
+								<div class="col-md-6 col-md-offset-3">
+   									<label for="leasingType" class="control-label text">Leasing Type<span class="star">*</span></label>
+   									<select class="form-control" name="leasingType">
+   										<option>sublease</option>
+   										<option>one year contract</option>
+   										<option>Month based</option>
+   										<option>Negotiatable</option>
+   									</select>
+								</div>
+							</div>
+          				</div>
+       				<div class="form-group">
+          				<div class="clearfix">
+							<div class="col-md-6 col-md-offset-3">
+   								<label for="price" class="control-label text">Price<span class="star">*</span></label>
+								<input type="text" class="form-control" name="price" id="price" value="@house.price">
+							</div>
+						</div>
+       				</div>
+       				<div class="form-group">
+          				<div class="clearfix">
+							<div class="col-md-6 col-md-offset-3">
+   								<label for="availability" class="control-label text">Availability<span class="star">*</span></label>
+								<input type="text" class="form-control" name="availability" id="availability" value="@house.availability">
+							</div>
+						</div>
+       				</div>
+       				<div class="form-group">
+          				<div class="clearfix">
+							<div class="col-md-6 col-md-offset-3">
+   								<label for="addressLine1" class="control-label text">Address 1<span class="star">*</span></label>
+								<input type="text" class="form-control" name="addressLine1" id="addressLine1" value="@house.addressLine1">
+							</div>
+						</div>
+       				</div>
+       				<div class="form-group">
+          				<div class="clearfix">
+							<div class="col-md-6 col-md-offset-3">
+   								<label for="addressLine2" class="control-label text">Address 2</label>
+								<input type="text" class="form-control" name="addressLine2" id="addressLine2" value="@house.addressLine2">
+							</div>
+						</div>
+       				</div>
+       				<div class="form-group">
+          				<div class="clearfix">
+							<div class="col-md-6 col-md-offset-3">
+   								<label for="city" class="control-label text">City<span class="star">*</span></label>
+								<input type="text" class="form-control" name="city" id="city" value="@house.city">
+							</div>
+						</div>
+       				</div>
+       				<div class="form-group">
+          					<div class="clearfix">
+								<div class="col-md-6 col-md-offset-3">
+   									<label for="state" class="control-label text">State<span class="star">*</span></label>
+   									<select class="form-control" name="state">
+   										@for(state <- State.optionList){
+   											<option>@state</option>
+   										}
+   									</select>
+								</div>
+							</div>
+          				</div>
+       				<div class="form-group">
+          				<div class="clearfix">
+							<div class="col-md-6 col-md-offset-3">
+   								<label for="zipCode" class="control-label text">Zip<span class="star">*</span></label>
+								<input type="text" class="form-control" name="zipCode" id="zipCode" value="@house.zipCode">
+							</div>
+						</div>
+       				</div>
+       				<div class="form-group">
+          				<div class="clearfix">
+							<div class="col-md-6 col-md-offset-3">
+   								<label for="requirements" class="control-label text">Requirement</label>
+								<input type="text" class="form-control" name="requirements" id="requirements" value="@house.requirements">
+							</div>
+						</div>
+       				</div>
+       				<div class="form-group">
+          				<div class="clearfix">
+							<div class="col-md-6 col-md-offset-3">
+   								<label for="Description" class="control-label text">Description</label>
+   								<textarea class="form-control" rows="3" name="description" id="description">@house.description</textarea>
+							</div>
+						</div>
+       				</div>
+       				<div class="form-group action">
+       					<div class="col-md-offset-4">
+          					<button type="button" id="cancel-button" class="btn btn-default">Cancel</button>
+          					<button type="submit" class="btn btn-primary">Submit</button>
+          					<a class="btn btn-danger" role="button" href="@routes.ProviderProfile.deleteHouse(house.id)">Delete</a>
+          				</div>
+        			</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+		$("#set-house-form").validate({
+			rules: {
+				name: "required",
+				houseType: "required",
+				size: {
+					required: true,
+					number: true
+				},
+				leasingType: "required",
+				price: {
+					required: true,
+					number: true
+				},
+				availability: {
+					required: true,
+					number: true
+				},
+				addressLine1: "required",
+				city: "required",
+				state: "required",
+				zipCode: {
+					required: true,
+					number: true
+				}
+			}
+		});
+		
+		$("#cancel-button").click(function(){
+			window.history.back();
+		});
+	</script>
+}
