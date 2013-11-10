@@ -13,7 +13,23 @@ GET     /logout                             controllers.Application.logout()
 GET		/register							controllers.Application.register()
 POST	/register							controllers.Application.processRegistration()
 
-GET		/profile/:id							controllers.Application.profile(id:String)
+GET		/profile/:id						controllers.UserProfile.profile(id:String)
+GET		/profile/:id/info					controllers.UserProfile.profile(id:String)
+POST	/profile/:id/info					controllers.UserProfile.processApplication(id:String)
+POST	/profile/:id/image					controllers.UserProfile.profileImageUpload(id:String)
+GET		/profile/:id/edit					controllers.UserProfile.editProfile(id:String)	
+POST	/profile/:id/edit					controllers.UserProfile.processEdit(id:String)
+GET		/profile/:id/subscribe				controllers.UserProfile.getSubscribe(id:String)
+GET		/profile/:id/follow					controllers.UserProfile.getFollow(id:String)
+
+GET		/pprofile/:id						controllers.ProviderProfile.profile(id:String)
+POST	/pprofile/:id						controllers.ProviderProfile.editProfile(id:String)
+GET		/pprofile/house/edit/:id			controllers.ProviderProfile.setHouse(id:Long)
+GET		/pprofile/house/del/:id				controllers.ProviderProfile.deleteHouse(id:Long)
+POST	/pprofile/house/add/:id				controllers.ProviderProfile.addHouse(id:String)		
+POST	/pprofile/house/edit/:id			controllers.ProviderProfile.editHouse(id:Long)
+
+GET		/house/:id							controllers.Houses.profile(id:Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

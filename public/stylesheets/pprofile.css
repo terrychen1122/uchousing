@@ -1,0 +1,79 @@
+.row {
+    margin-top: 70px;
+}
+
+.header > h1 {
+    font-weight: 200;
+}
+
+.side-bar {
+    min-height: 350px;
+}
+
+.side-bar > ul {
+    list-style-type: none;
+}
+
+.side-bar .side-bar-items {
+    margin-top: 30px;
+}
+
+.side-bar .side-bar-items > li {
+    margin-bottom: 10px;
+}
+
+.side-bar .side-bar-items > li > a {
+    font-size: 1.7em;
+    font-weight: 200;
+}
+
+.main-section .well {
+    background: white;
+}
+
+.main-section .head{
+    font-weight: 200;
+    margin-top: auto;
+    margin-bottom: atuo;
+    padding-bottom: 0;
+}
+
+.info .text {
+    font-weight: bold;
+}
+
+.info .infoText {
+    font-size:16px;
+    font-style: italic;
+}
+
+.file-row {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.table >tbody >tr >td > button {
+    /*border: hidden;*/
+    float:right;
+}
+
+.star {
+    color: red;
+    font-size: 14px;
+}
+
+.error {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+label.error {
+    font-size: 14px;
+    float: none;
+    color: red;
+    padding-left: .5em;
+    vertical-align: top;
+    font-weight: 200;
+}
+
+

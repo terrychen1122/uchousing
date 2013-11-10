@@ -25,8 +25,17 @@ public class Comment {
 	@Constraints.MaxLength(200)
 	public String content;
 	
+	@ManyToOne
+	public House commentTo;
+	
 	/*
 	 * Generic query helper for entity Comment with id Long
 	 */
 	public static Finder<Long, Comment> find = new Finder<Long, Comment>(Long.class, Comment.class);
+	
+	public static List<Comment> getCommentsByHouse(Long id){
+		return find.where()
+                .eq("commentTo.id", id)
+           .findList();
+	}
 }

@@ -43,6 +43,15 @@ body {
     width:45%;
 }
 
+label.error {
+    font-size: 14px;
+    float: none;
+    color: red;
+    padding-left: .5em;
+    vertical-align: top;
+    font-weight: 200;
+}
+
 /* placeholder style */
 ::-webkit-input-placeholder {
    font-style: italic;

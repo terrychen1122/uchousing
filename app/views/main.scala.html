@@ -68,7 +68,7 @@
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">@user.email<b class="caret"></b></a>
 								<ul class="dropdown-menu pull-right">
-									<li><a href="@routes.Application.profile(user.email)">Profile</a></li>
+									<li><a href="@routes.UserProfile.profile(user.email)">Profile</a></li>
 									<li><a href="#">Inbox</a></li>
 									@if(user.isHouseProvider==1){
 										<li><a href="#">My Lists</a></li>

@@ -47,34 +47,19 @@
 	<div class="col-md-5 info">
 		<p class="infoText">@user.preferredType</p>
 	</div>
-	
-	<div class="col-md-3 col-md-offset-1 info">
-		<p class="text text-right">Neighbor preference: </p>
+        
+    <div class="col-md-3 col-md-offset-1 info">
+		<p class="text text-right">Surrounding preference: </p>
 	</div>
 	<div class="col-md-5 info">
-		<p class="infoText">@user.neighbor1</p>
+		<p class="infoText">@user.neighbor</p>
 	</div>
 	
-	@if(user.neighbor2!=null){
-		<div class="col-md-3 col-md-offset-1 info">
-		<p class="text text-right">Neighbor preference: </p>
-		</div>
-		<div class="col-md-5 info">
-			<p class="infoText">@user.neighbor2</p>
-		</div>
-	}
-	@if(user.neighbor3!=null){
-		<div class="col-md-3 col-md-offset-1 info">
-			<p class="text text-right">Neighbor preference 3: </p>
-		</div>
-		<div class="col-md-5 info">
-			<p class="infoText">@user.neighbor3</p>
-		</div>
-	}
+	
 	
 	@if(isEditable==1){
 		<br>
-		<div class="col-md-2 col-md-offset-3 editButton">
-			<a href="#" class="btn btn-primary btn-sm">Edit</a>
+		<div class="col-md-2 col-md-offset-4 editButton" >
+			<a href="@routes.UserProfile.editProfile(user.email)" class="btn btn-primary btn-sm">Edit</a>
 		</div>
 	}

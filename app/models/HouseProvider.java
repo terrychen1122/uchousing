@@ -13,12 +13,8 @@ import play.data.validation.*;
 public class HouseProvider extends Model {
 	
 	@Id
-	@Constraints.Required
 	@Constraints.Email
 	public String email;
-	
-	@Constraints.Required
-	public String houseType;
 	
 	@Constraints.MaxLength(200)
 	public String description;
@@ -28,6 +24,9 @@ public class HouseProvider extends Model {
 	
 	@Constraints.Required
 	public String fname;
+	
+	@Constraints.Required
+	public String providerType;
 	
 	@Constraints.Required
 	public String occupation;
@@ -56,5 +55,15 @@ public class HouseProvider extends Model {
      */
 	public static Finder<String,HouseProvider> find = new Finder<String,HouseProvider>(String.class, HouseProvider.class);
 	
-	
+	public void updateWithForm(Map<String, String[]> data){
+		this.occupation = data.get("occupation")[0];
+		this.providerType = data.get("providerType")[0];
+		this.description = data.get("description")[0];
+		this.addressLine1 = data.get("addressLine1")[0];
+		this.addressLine2 = data.get("addressLine2")[0];
+		this.city = data.get("city")[0];
+		this.states = data.get("states")[0];
+		this.zipCode = data.get("zipCode")[0];
+		this.update();
+	}
 }

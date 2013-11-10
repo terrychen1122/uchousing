@@ -1,0 +1,26 @@
+@(user: Users, isEditable: Integer)
+	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/profileInfo.css")">
+	<br>
+	<div class="col-md-6 col-md-offset-1 header">
+		<p class="text">User Subscription</p>
+	</div>
+	<div class="col-md-10 col-md-offset-1">
+		<hr class="hdivider">
+	</div>
+	
+	<div class="col-md-10 col-md-offset-1">
+		@user.subscribeTo.map { house =>
+           <div class="col-md-3 info">
+           		<p class="text">house.name</p>
+			</div>
+			<div class="col-md-3 info">
+				<p class="text">house.owner_mail</p>
+			</div>
+			<div class="col-md-3 info">
+				<p class="text">house.availability</p>
+			</div>
+			<div class="col-md-3 info">
+				<p class="text">house.updated_time</p>
+			</div>
+        }
+	</div>

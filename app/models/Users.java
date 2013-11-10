@@ -26,18 +26,12 @@ public class Users extends Model {
 	public String passwd;
 	
 	@Constraints.Required
-	@Constraints.Pattern("123-456-7890")
 	public String phone;
 	
 	@Constraints.Required
 	public int isHouseProvider;
 	
-	@Constraints.Required
-	public String neighbor1;
-	
-	public String neighbor2;
-	
-	public String neighbor3;
+	public String neighbor;
 	
 	public String profileImage;
 	
@@ -68,5 +62,20 @@ public class Users extends Model {
     		return "Email: " + email + " is already existed";
     	}
         return null;
+    }
+    
+    public static void edit(String email, String name, String phone, String type, String neighbor) {
+    	Users user = find.ref(email);
+    	user.name = name;
+    	user.phone = phone;
+    	user.preferredType = type;
+    	user.neighbor = neighbor;
+    	user.update();
+    }
+    
+    public static void setHouseProvider(String email) {
+    	Users user = find.ref(email);
+    	user.isHouseProvider = 1;
+    	user.update();
     }
 }

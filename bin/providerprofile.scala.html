@@ -1,0 +1,153 @@
+@(provider: HouseProvider, listing: List[House],isEditable: Integer, logUser: Users, form: Form[House])
+
+@implicitFieldConstructor = @{ helper.FieldConstructor(twitterBootstrapHouseForm.render) }
+
+@main("Provider Profile", logUser, 3) {
+	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/pprofile.css")">
+	<script language="javascript" type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 header">
+				<h1>House Provider: @provider.fname @provider.lname</h1>
+			</div>
+			
+			<div class="well col-md-3 side-bar">
+				<ul class="side-bar-items">
+					<li><a href="javascript:void(0)" id="profile">Profile <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+					<li><a href="javascript:void(0)" id="listing">Listings <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+				</ul>
+			</div>
+			
+			<div class=" col-md-9 main-section">
+				<!-- Profile Section -->
+				<div id="profileSection">
+					<div class="col-md-12 ">
+						<h2 class="head">Profile</h2>
+						<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#profileModal" style="float:right; @if(isEditable==0){visibility:hidden}">
+							<span class="glyphicon glyphicon-cog setting"></span>
+						</button>
+					</div>
+					<hr>
+					<!-- User data -->
+					<div class="col-md-3 col-md-offset-1">
+						<p class="text text-right">Email: </p>
+					</div>
+					<div class="col-md-7 ">
+						<p>@provider.email</p>
+					</div>
+	
+					<div class="col-md-3 col-md-offset-1 ">
+						<p class="text text-right">Occupation: </p>
+					</div>
+					<div class="col-md-7 info">
+						<p class="infoText">@provider.occupation</p>
+					</div>
+					
+					<div class="col-md-3 col-md-offset-1 ">
+						<p class="text text-right">Type: </p>
+					</div>
+					<div class="col-md-7 info">
+						<p class="infoText">@provider.providerType</p>
+					</div>
+	
+					<div class="col-md-3 col-md-offset-1 ">
+						<p class="text text-right">Address: </p>
+					</div>
+					<div class="col-md-7 info">
+						<p class="infoText">@provider.addressLine1</p>
+					</div>
+					@if(!(provider.addressLine2).equals("")){
+						<div class="col-md-3 col-md-offset-1 ">
+						<p class="text text-right"></p>
+						</div>	
+						<div class="col-md-7 info">
+							<p class="infoText">@provider.addressLine2</p>
+						</div>
+					}
+					<div class="col-md-3 col-md-offset-1 ">
+						<p class="text text-right">City: </p>
+					</div>
+					<div class="col-md-7 info">
+						<p class="infoText">@provider.city</p>
+					</div>
+					
+					<div class="col-md-3 col-md-offset-1 ">
+						<p class="text text-right">State: </p>
+					</div>
+					<div class="col-md-7 info">
+						<p class="infoText">@provider.states</p>
+					</div>
+					
+					<div class="col-md-3 col-md-offset-1 ">
+						<p class="text text-right">Zip: </p>
+					</div>
+					<div class="col-md-7 info">
+						<p class="infoText">@provider.zipCode</p>
+					</div>
+					
+					<div class="col-md-3 col-md-offset-1 ">
+						<p class="text text-right">Description: </p>
+					</div>
+					<div class="col-md-7 info">
+						<p class="infoText">@provider.description</p>
+					</div>
+				</div>
+				<!-- Profile Section End -->
+				<!-- Listing Section -->
+				<div id="listingSection">
+					<div class="col-md-12 ">
+						<h2 class="head">Listings</h2>
+						<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#CreateHouseModal" style="float:right; @if(isEditable==0){visibility:hidden;}">
+							<span class="glyphicon glyphicon-plus-sign"></span>
+						</button>
+						<hr>
+					</div>
+					<table class="table table-striped">
+            			<thead>
+                			<tr>
+                				<th>Name</th>
+                				<th>Type</th>
+                				<th>Last update</th>
+                				<th>Rate</th>
+                				<th>Price</th>
+                			</tr>
+            			</thead>
+            			<tbody>
+
+                		@for(house <- listing) {
+                    		<tr>
+                        		<td><a href="#">@house.name</a></td>
+                        		<td>@house.houseType</td>
+                        		<td>
+                            	@if(house.updatedTime == null) {
+                                	<em>-</em>
+                            	} else {
+                                	@house.updatedTime.format("dd MMM yyyy")
+                            	}
+                        		</td>
+                        		<td>@house.rate</td>
+                        		<td>@house.price</td>
+                        		<td>
+                        			<a class="btn btn-default btn-sm " role="button" href="@routes.ProviderProfile.setHouse(house.id)" style="@if(isEditable==0){visibility:hidden;}">
+										<span class="glyphicon glyphicon-cog"></span>
+									</a>
+								</td>
+                    	</tr>
+                		}
+            			</tbody>
+        			</table>
+				</div>
+				<!-- Listing section end -->
+			</div>
+			
+		</div>
+	</div>
+		
+	@views.html.providerprofile.modal(provider, form)
+	
+	<script>
+	</script>
+	
+	<script src="@routes.Assets.at("javascripts/pprofile.js")" type="text/javascript"></script>
+}

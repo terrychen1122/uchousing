@@ -32,3 +32,32 @@
     font-size:16px;
     font-style: italic;
 }
+
+.error {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.star {
+    color: red;
+    font-size: 14px;
+}
+
+.star-adjacent {
+    position: relative;
+    left:-10px;
+}
+
+.help-block {
+    position: relative;
+    left: 5px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-style: italic;
+    font-size: 12px;
+}
+
+.customButton {
+    margin:auto;
+    width:45%;
+}

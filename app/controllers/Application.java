@@ -10,6 +10,8 @@ import play.mvc.Http;
 import models.*;
 import views.html.*;
 import static play.data.Form.*;
+
+import java.io.File;
 import java.util.*;
 
 
@@ -32,8 +34,7 @@ public class Application extends Controller {
         }
     }
 	
-	public static Result index() {
-    	
+	public static Result index() {    	
     	if(session().isEmpty()){
     		return ok(index.render("Homepage", null, House.recentUpdated(4, 0)));
     	} else {
@@ -59,7 +60,14 @@ public class Application extends Controller {
 			registerForm.get().profileImage = "default_profile_pic.jpg";
 			registerForm.get().save();
 			//TEMP 
-			return ok(index.render("", Users.find.byId(registerForm.get().email), House.recentUpdated(4, 0)));
+			File f = new File("../../public/images/profile_pic/" + registerForm.get().email);
+			try {
+				f.mkdirs();
+			} catch (Exception e){
+				e.printStackTrace();
+			}
+			session("email", registerForm.get().email);
+			return ok(index.render("", Users.find.byId(session().get("email")), House.recentUpdated(4, 0)));
 		}
 	}
 	
@@ -90,42 +98,6 @@ public class Application extends Controller {
         return redirect(
             routes.Application.index()
         );
-    }
-	
-	public static Result profile(String email){
-		return profile(email, "info");
-	}
-	
-	public static Result profile(String email, String mainWindow) {
-		Users logUser = null;
-		int isEditable = 0;
-		if(!session().isEmpty()){
-    		logUser = Users.find.byId(session().get("email"));
-    		isEditable = (email.equals(session().get("email"))) ? 1 : 0;
-    	}
-		Users profileUser = Users.find.byId(email);
-		// ---------- TEMP --------------
-//			Users profileUser = new Users();
-//			profileUser.email = "testing@case.edu";
-//			profileUser.passwd = "000000";
-//			profileUser.isHouseProvider = 0;
-//			profileUser.name = "testing_user";
-//			profileUser.neighbor1 = "Queit";
-//			profileUser.phone = "111-111-1111";
-//			profileUser.preferredType = "Studio";
-//			profileUser.profileImage = "default_profile_pic.jpg";
-//			profileUser.followTo = null;
-//			profileUser.subscribeTo = null;
-		// ---------- TESTING OBJECT -------------
-		if(profileUser != null) {
-			return ok(profileFrame.render(profileUser, logUser, isEditable, mainWindow));
-		} else {
-			//TEMP
-			return ok(index.render("", Users.find.byId(request().username()), House.recentUpdated(4, 0)));
-		}
-	}
-	
-	
-    
+    }    
     
 }

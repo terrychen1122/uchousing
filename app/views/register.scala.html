@@ -4,8 +4,10 @@
 
 @main("Register", null ,3 ) {
 	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
+	<script language="javascript" type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script>
+	<script src="http://jquery.bassistance.de/validate/additional-methods.js"></script>
 	
-	@helper.form(routes.Application.processRegistration, 'class -> "form-horizontal", 'role -> "form") {
+	@helper.form(routes.Application.processRegistration, 'id -> "registerForm", 'class -> "form-horizontal", 'role -> "form") {
 		<div class="col-md-8 col-md-offset-2 well">
 			<div class="form-group">
 				<div class="col-md-2 col-md-offset-5">
@@ -74,6 +76,17 @@
             	</div>
             	
         		<!-- TODO: Confirm Password -->
+        		<div class="form-group">
+        			@helper.inputText(
+        				form("passwdConfirm"),
+        				'class -> "form-control",
+        				'id -> "inputPassword2",
+        				'_label -> "Confirm Password",
+        				'type -> "password",
+        				'name -> "cpassword",
+        				'placeholder -> "Confirm your password"
+        			)
+        		</div>
             	
             	<div class="form-group">
             		@helper.inputText(
@@ -84,7 +97,6 @@
             			'name -> "phone",
             			'placeholder -> "Phone number"
             			)
-            		<span class="help-block col-md-offset-4 col-md-4">format: (123-456-7890)</span>
             	</div>
             	
             	<div class="form-group noButtomMargin">
@@ -103,7 +115,8 @@
                 		form("preferredType"), 
                 		helper.options(HouseType.options), 
                 		'id -> "inputHouseType",
-                		'_label -> "House type", '_default -> "Preferred house type",
+                		'_label -> "House type", 
+                		'_default -> "Preferred house type",
                 		'_showConstraints -> false,
                 		'class -> "form-control"
             		)
@@ -111,33 +124,11 @@
             	
             	<div class="form-group">
             		@helper.select(
-            			form("neighbor1"),
+            			form("neighbor"),
             			helper.options(Neighborhood.options),
             			'id -> "inputNeighborType",
-            			'_label -> "Neighbor type", 
-            			'_default -> "-- Choose your first choice --",
-            			'_showConstraints -> false,
-            			'class -> "form-control"
-            		)
-            	</div>
-            	
-            	<div class="form-group">
-            		@helper.select(
-            			form("neighbor2"),
-            			helper.options(Neighborhood.options),
-            			'_label -> "Neighbor type", 
-            			'_default -> "-- Choose your second choice --",
-            			'_showConstraints -> false,
-            			'class -> "form-control"
-            		)
-            	</div>
-            	
-            	<div class="form-group">
-            		@helper.select(
-            			form("neighbor2"),
-            			helper.options(Neighborhood.options),
-            			'_label -> "Neighbor type", 
-            			'_default -> "-- Choose your third choice --",
+            			'_label -> "Surrounding", 
+            			'_default -> "-- Choose your preference --",
             			'_showConstraints -> false,
             			'class -> "form-control"
             		)
@@ -156,4 +147,34 @@
 		</div>
 	
 	}
+	<script>
+			$("#registerForm").validate({
+				rules: {
+					email: {
+						required: true
+					},
+					name: {
+						required: true
+					},
+					passwd: {
+						required: true
+					},
+					passwdConfirm: {
+						required: true,
+						equalTo: "#inputPassword1"
+					},
+					phone: {
+						required: true,
+						phoneUS: true
+					},
+					preferredType: {
+						required: true
+					},
+					neighbor: {
+						required: true
+					}
+				}
+			});
+		
+	</script>
 }

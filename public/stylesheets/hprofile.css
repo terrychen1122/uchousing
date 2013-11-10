@@ -1,0 +1,79 @@
+.ui-body {
+    max-width: 750px;
+    margin-top: 80px;
+}
+
+.header, .ui-body-section, .ui-body-marketing{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.header {
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 30px;
+}
+
+.header h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 50px;
+    padding-bottom: 20px;
+}
+
+.carousel-img img{
+    height: 300px;
+    max-height: 300px;
+    width: auto;
+    
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ui-body-section {
+    border: 1px solid #e5e5e5;
+    margin: 40px 10px 10px 20px;
+    min-height: 200px;
+    width: auto;
+}
+
+.section-inner {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.section-inner p {
+    font-family: cursive;
+    font-size: 1.5em;
+    font-weight: 200%;
+}
+
+.btn-group {
+    margin-top:5px;
+}
+
+.dropdown-menu {
+    min-width: 50px;
+}
+
+.inner-tool-bar {
+    margin-top: 30px;
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-bottom: 0;
+}
+
+.inner-tool-bar .tab-content .tab-pane {
+    min-height: 200px;
+}
+
+.ui-comment-input {
+    margin:20px;
+}
+
+.ui-comment-input .form-group button {
+    float: right;
+}
+

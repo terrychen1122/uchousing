@@ -1,0 +1,116 @@
+@(user: Users, form: Form[UserProfile.Profile])
+
+@implicitFieldConstructor = @{ helper.FieldConstructor(twitterBootstrapEditInput.render) } 
+
+	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/profileInfo.css")">
+	<script language="javascript" type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script>
+	
+	<br>
+	<div class="col-md-6 col-md-offset-1 header">
+		<p class="text">Account Information</p>
+	</div>
+	<div class="col-md-10 col-md-offset-1">
+		<hr class="hdivider">
+	</div>
+	
+	@helper.form(routes.UserProfile.processEdit(user.email), 'id -> "editForm", 'class -> "form-horizontal", 'role -> "form") {
+    <div class="col-md-8 col-md-offset-2 well">
+   	<fieldset>
+   		<br>
+        <div class="form-group">
+            	@helper.inputText(
+            		form("name"),
+           			'class -> "form-control",
+           			'id -> "inputName",
+           			'_label -> "User Name",
+           			'name -> "name",
+           			'placeholder -> user.name
+           		)
+        </div>
+        
+        <div class="form-group">
+        		@helper.inputText(
+        			form("passwd1"),
+        			'class -> "form-control",
+        			'id -> "passwd1",
+        			'type -> "password",
+        			'_label -> "Password",
+        			'placeholder -> "Enter password"
+        		)
+        </div>
+        
+        <div class="form-group">
+        		@helper.inputText(
+        			form("passwd2"),
+        			'class -> "form-control",
+        			'id -> "passwd2",
+        			'type -> "password",
+        			'_label -> "Confirm Password"
+        		)
+        </div>
+        
+        <div class="form-group">
+            	@helper.inputText(
+            		form("phone"),
+           			'class -> "form-control",
+           			'id -> "inputPhone",
+           			'_label -> "Phone",
+           			'name -> "phone",
+           			'placeholder -> user.phone
+           		)
+        </div>
+        
+        <div class="form-group">
+            		@helper.select(
+                		form("preferredType"), 
+                		helper.options(HouseType.options), 
+                		'id -> "inputHouseType",
+                		'_label -> "House type", 
+                		'_default -> user.preferredType,
+                		'_showConstraints -> false,
+                		'class -> "form-control"
+            		)
+        </div>
+        
+        <div class="form-group">
+            		@helper.select(
+            			form("neighbor"),
+            			helper.options(Neighborhood.options),
+            			'id -> "inputNeighborType",
+            			'_label -> "Surrounding", 
+            			'_default -> user.neighbor,
+            			'_showConstraints -> false,
+            			'class -> "form-control"
+            		)
+        </div>
+   	</fieldset>
+	</div>
+	<div class="form-group actions">
+				<div class="col-md-offset-5 col-md-3">
+            		<input type="submit" value="Submit" class="btn btn-primary customButton"> 
+            		
+           	 		<a href="@routes.UserProfile.profile(user.email)" class="btn btn-default customButton">Cancel</a> 
+           	 	</div>
+    </div>
+
+	}
+	<script>
+	$('#editForm').validate({
+		rules: {
+			name: "required",
+			passwd1: "required",
+			preferredType: "required",
+			neighbor: "required",
+			passwd2: {
+				required: true,
+				equalTo: passwd1
+			},
+			phone: {
+				required: true,
+				phoneUS: true
+			}
+		}
+	});
+	</script>
+	
+	

@@ -28,4 +28,10 @@ public class HPicture {
 	 * Generic query helper for entity HPicture with id Long
 	 */
 	public static Finder<Long, HPicture> find = new Finder<Long, HPicture>(Long.class, HPicture.class);
+	
+	public static List<HPicture> getImages(Long id){
+		return find.where()
+                .eq("house.id", id)
+           .findList();
+	}
 }

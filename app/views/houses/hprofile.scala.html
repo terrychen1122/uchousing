@@ -1,0 +1,154 @@
+@(house: House, images: List[HPicture], isEditable: Integer, logUser: Users)
+
+@main("House profile", logUser, 3){
+<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/hprofile.css")">
+
+<div class="container ui-body">
+	<div class="header">
+		<h2 class="text-muted">@house.name</h3>
+	</div>
+	<div id="housing-carousel" class="carousel slide">
+		<ol class="carousel-indicators">
+    			<li data-target="#housing-carousel" data-slide-to="0" class="active"></li>
+    			<li data-target="#housing-carousel" data-slide-to="1"></li>
+    			<li data-target="#housing-carousel" data-slide-to="2"></li>
+    			<li data-target="#housing-carousel" data-slide-to="3"></li>
+  			</ol>
+	
+  			<!-- Wrapper for slides -->
+  			<div class="carousel-inner">
+   				<div class="item carousel-img active" style="height:300px"><img src="@routes.Assets.at("images/image1.jpg")" alt="0"></div>
+    			<div class="item carousel-imgm" style="height:300px"><img src="@routes.Assets.at("images/image2.jpg")" alt="1"></div>
+    			<div class="item carousel-img" style="height:300px"><img src="@routes.Assets.at("images/image3.jpg")" alt="2"></div>
+    			<div class="item carousel-img" style="height:300px"><img src="@routes.Assets.at("images/No-image-available.jpg")" alt="3"></div>
+  			</div>
+	
+  			<!-- Controls -->
+  			<a class="left carousel-control" href="#housing-carousel" data-slide="prev">
+    			<span class="glyphicon glyphicon-chevron-left"></span>
+  			</a>
+  			<a class="right carousel-control" href="#housing-carousel" data-slide="next">
+    			<span class="glyphicon glyphicon-chevron-right"></span>
+  			</a>
+	</div>
+	<div class="ui-body-section">
+		<div class="section-inner">
+			<div class="row">
+				<div class="col-md-3"><p>Owner: </p></div>
+				<div class="col-md-5"><p><a href="@routes.UserProfile.profile(house.owner.email)">@house.owner.fname @house.owner.lname</a> (@house.owner.email)</p></div>
+			</div>
+			<div class="row">
+				<div class="col-md-3"><p>Type: </p></div>
+				<div class="col-md-5"><p>@house.houseType</p></div>
+			</div>
+			<div class="row">
+				<div class="col-md-3"><p>Size: </p></div>
+				<div class="col-md-5"><p>@house.size ft&sup2</p></div>
+			</div>
+			<div class="row">
+				<div class="col-md-3"><p>Price: </p></div>
+				<div class="col-md-5"><p>$@house.price </p></div>
+			</div>
+			<div class="row">
+				<div class="col-md-3"><p>Rate: </p></div>
+				<div class="col-md-3"><p>@house.rate out of 5</p></div>
+				<div class="btn-group">
+					<button type="button" class="btn btn-xs btn-info" disabled><span class="glyphicon glyphicon-star"></span></button>
+					<button type="button" class="btn btn-xs btn-info" data-toggle="dropdown">
+    					<span class="caret"></span>
+    					<span class="sr-only">Toggle Dropdown</span>
+  					</button>
+  					<ul class="dropdown-menu" role="menu">
+    					<li><a href="#">1</a></li>
+    					<li><a href="#">2</a></li>
+   						<li><a href="#">3</a></li>
+    					<li><a href="#">4</a></li>
+    					<li><a href="#">5</a></li>
+  					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3"><p>Availability: </p></div>
+				<div class="col-md-5"><p>@house.availability</p></div>
+			</div>
+		</div>
+	</div>
+	<div class="inner-tool-bar">
+		<ul class="nav nav-tabs">
+  			<li><a href="#description" data-toggle="tab">Description</a></li>
+  			<li><a href="#address" data-toggle="tab">Address</a></li>
+  			<li><a href="#services" data-toggle="tab">Services</a></li>
+  			<li><a href="#neighbor" data-toggle="tab">Neighbor</a></li>
+  			<li><a href="#map" data-toggle="tab">Map</a></li>
+  			<li><a href="#comment" data-toggle="tab">Comments</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="description">
+				<br>
+				<blockquote>
+					@if((house.description!=null)&&house.description.equals("")){
+  					<p style="font-style: italic;">No description provided by owner.</p>
+  					}else{
+  					<p>@house.description</p>
+  					}
+  					
+  					@if((house.requirements!=null)&& !house.requirements.equals("")){
+  					<p>Owner requirements</p><br>
+  					<p>@house.requirements</p>
+  					}
+				</blockquote>
+			</div>
+  			<div class="tab-pane" id="address">
+  				<br>
+  				<blockquote>
+  				<address>
+  					@house.addressLine1<br>
+  					@if(!house.addressLine2.equals("")){@house.addressLine2<br>}
+  					@house.city, @house.state @house.zipCode<br>
+  					<abbr title="Phone">P:</abbr> @Users.find.byId(house.owner.email).phone
+				</address>
+				</blockquote>
+  			</div>
+  			<div class="tab-pane" id="services">
+  			
+  			</div>
+  			<div class="tab-pane" id="neighbor">
+  			
+  			</div>
+  			<div class="tab-pane" id="map">
+  			
+  			</div>
+  			<div class="tab-pane" id="comment">
+  			@if(logUser!=null){
+  				<div class="ui-comment-input">
+  					<form class="form-horizontal " role="form">
+  						<div class="form-group">
+  							<textarea class="form-control" rows="3" placeholder="Leaving your comment here ..."></textarea>
+  						</div>
+  						<div class="form-group">
+  							<button type="submit" class="btn btn-default">Submit</button>
+  						</div>
+  					</form>
+  				</div>
+  			}
+  				<hr>
+  				<div class="ui-comment-board">
+  					<blockquote>
+  						<p>Comment goes here</p>
+  						<small>user name</small>
+  					</blockquote>
+  				</div>
+  				<div class="ui-comment-board">
+  					<blockquote>
+  						<p>Comment goes here</p>
+  						<small>user name</small>
+  					</blockquote>
+  				</div>
+  				
+  			</div>
+		</div>
+		
+		<br><br><br><br>
+	</div>
+</div>
+}
