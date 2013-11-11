@@ -5,7 +5,7 @@
 @main("Profile", logUser, 3) {
 	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/profileFrame.css")">
 	<script language="javascript" type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script>
-	
+	<div class="container">
 	<div class="col-xs-6 col-sm-4 sidebar-offcanvas" id="sidebar" role="navigation">
 		<div class="well sidebar-nav">
 			<br>
@@ -17,40 +17,34 @@
 			<hr>
 			
 			<!-- Show subscribe, follow, and listing -->
-			<div class="col-sm-3">
+			<div class="row">
+			<div class="col-sm-6">
 				<p class="text-center quickLinkText">Subscribe</p>
 			</div>
-			<div class="col-sm-3 col-sm-offset-1">
+			<div class="col-sm-6 ">
 				<p class="text-center quickLinkText">Follow</p>
 			</div>
-			<div class="col-sm-3 col-sm-offset-1">
-				<p class="text-center quickLinkText">Listing</p>
 			</div>
-			<!-- number of subscribe, follow, and listing -->
-			<div class="col-sm-3">
+			<!-- number of subscribe anfollow -->
+			<div class="row">
+			<div class="col-sm-6">
 				<p class="text-center customNumber1"><a href="@routes.UserProfile.getSubscribe(user.email)">@user.subscribeTo.length</a></p>
 			</div>
-			<div class="col-sm-3 col-sm-offset-1">
+			<div class="col-sm-6">
 				<p class="text-center customNumber1"><a href="@routes.UserProfile.getFollow(user.email)">@user.followTo.length</a></p>
 			</div>
-			<div class="col-sm-3 col-sm-offset-1">
-				@if(user.isHouseProvider==1){
-					<p class="text-center customNumber1"><a href="#">@House.findListing(user.email).size</a></p>
-				}else{
-					<p class="text-center customNumber1">0</p>
-				}
 			</div>
 			<br>
 			<!-- Button to edit profile or apply for house provider -->
-			@if(isEditable==1){
+			
 				<div class="col-md-10 col-md-offset-2 profileButton1">
-					@if(user.isHouseProvider==0){
+					@if((user.isHouseProvider==0)&&(isEditable==1)){
 						<a data-toggle="modal" href="#ApplicationModal" class="btn btn-info">Apply for Houses Provider</a>
 					}else{
 						<a href="@routes.ProviderProfile.profile(user.email)" class="btn btn-info">House Provider Profile</a>
 					}
 				</div>
-			}
+			
 		</div>
 	</div>
 	
@@ -59,19 +53,62 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dimiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title">Upload your profile image</h4>
+					<h4 class="modal-title">choose your profile image</h4>
 				</div>
 				<div class="modal-body">
-					@helper.form(routes.UserProfile.profileImageUpload(user.email), 'enctype -> "multipart/form-data", 'class -> "form-horizontal", 'role -> "form") {
-					<div class="form-group upload-form">
-						<input type="file" class="form-control" name="picture" accept="image/*">
-					</div>
+					<a href="@routes.UserProfile.profileImageChange("artist.png",user.email)">
+					<img src="@routes.Assets.at("images/profile_pic/artist.png")" alt="artist" class="img-thumbnail ui-icon" >
+					</a>
+					<a href="@routes.UserProfile.profileImageChange("cleaner.png",user.email)">
+					<img src="@routes.Assets.at("images/profile_pic/cleaner.png")" alt="cleaner" class="img-thumbnail ui-icon">
+					</a>
+					<a href="@routes.UserProfile.profileImageChange("babysitter.png",user.email)">
+					<img src="@routes.Assets.at("images/profile_pic/babysitter.png")" alt="babysitter" class="img-thumbnail ui-icon">
+					</a>
+					<a href="@routes.UserProfile.profileImageChange("postman.png",user.email)">
+					<img src="@routes.Assets.at("images/profile_pic/postman.png")" alt="postman" class="img-thumbnail ui-icon">
+					</a>
+					<a href="@routes.UserProfile.profileImageChange("bartender.png",user.email)">
+					<img src="@routes.Assets.at("images/profile_pic/bartender.png")" alt="bartender" class="img-thumbnail ui-icon">
+					</a>
+					<a href="@routes.UserProfile.profileImageChange("pilot.png",user.email)">
+					<img src="@routes.Assets.at("images/profile_pic/pilot.png")" alt="pilot" class="img-thumbnail ui-icon">
+					</a>
+					<a href="@routes.UserProfile.profileImageChange("painter.png",user.email)">
+					<img src="@routes.Assets.at("images/profile_pic/painter.png")" alt="painter" class="img-thumbnail ui-icon">
+					</a>
+					<a href="@routes.UserProfile.profileImageChange("director.png",user.email)">
+					<img src="@routes.Assets.at("images/profile_pic/director.png")" alt="director" class="img-thumbnail ui-icon">
+					</a>
+					<a href="@routes.UserProfile.profileImageChange("chemist.png",user.email)">
+					<img src="@routes.Assets.at("images/profile_pic/chemist.png")" alt="chemist" class="img-thumbnail ui-icon">
+					</a>
+					<a href="@routes.UserProfile.profileImageChange("designer.png",user.email)">
+					<img src="@routes.Assets.at("images/profile_pic/designer.png")" alt="designer" class="img-thumbnail ui-icon">
+					</a>
+					<a href="@routes.UserProfile.profileImageChange("engineer.png",user.email)">
+					<img src="@routes.Assets.at("images/profile_pic/engineer.png")" alt="engineer" class="img-thumbnail ui-icon">
+					</a>
+					<a href="@routes.UserProfile.profileImageChange("barber.png",user.email)">
+					<img src="@routes.Assets.at("images/profile_pic/barber.png")" alt="barber" class="img-thumbnail ui-icon">
+					</a>
+					<a href="@routes.UserProfile.profileImageChange("doctor.png",user.email)">
+					<img src="@routes.Assets.at("images/profile_pic/doctor.png")" alt="doctor" class="img-thumbnail ui-icon">
+					</a>
+					<a href="@routes.UserProfile.profileImageChange("environmentalist.png",user.email)">
+					<img src="@routes.Assets.at("images/profile_pic/environmentalist.png")" alt="environmentalist" class="img-thumbnail ui-icon">
+					</a>
+					<a href="@routes.UserProfile.profileImageChange("worker.png",user.email)">
+					<img src="@routes.Assets.at("images/profile_pic/worker.png")" alt="worker" class="img-thumbnail ui-icon">
+					</a>
+					<a href="@routes.UserProfile.profileImageChange("mover.png",user.email)">
+					<img src="@routes.Assets.at("images/profile_pic/mover.png")" alt="mover" class="img-thumbnail ui-icon">
+					</a>
 				</div>
 				<div class="modal-footer form-group action">
           			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          			<button type="submit" class="btn btn-primary">Submit</button>
         		</div>
-        			}
+        			
 			</div>
 		</div>
 	</div>
@@ -203,6 +240,7 @@
 		@if(mainWindow.equals("subscribe")){
 			@views.html.profile.subscribe(user, isEditable)
 		}
+	</div>
 	</div>
 	
 	<br>

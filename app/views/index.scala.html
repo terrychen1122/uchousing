@@ -31,27 +31,16 @@
 			<div class="row title">
 				<h4>Recent Updates:</h4>
 			</div>
+			
 			<div class="row posts">
-				<div class="col-lg-3">
-					<h2>House name</h2>
-					<p>House Description</p>
+				@posts.map { house => 
+				<div class="col-lg-3"> 
+					<h2>@house.name</h2>
+					<p>@house.description</p>
 					<p><a class="btn btn-default" href="#">View Details</a></p>
 				</div>
-				<div class="col-lg-3">
-					<h2>House name</h2>
-					<p>House Description</p>
-					<p><a class="btn btn-default" href="#">View Details</a></p>
-				</div>
-				<div class="col-lg-3">
-					<h2>House name</h2>
-					<p>House Description</p>
-					<p><a class="btn btn-default" href="#">View Details</a></p>
-				</div>
-				<div class="col-lg-3">
-					<h2>House name</h2>
-					<p>House Description</p>
-					<p><a class="btn btn-default" href="#">View Details</a></p>
-				</div>
+				}
+				
 			</div>
 		</div>
 		

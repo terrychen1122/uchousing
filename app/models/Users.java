@@ -78,4 +78,10 @@ public class Users extends Model {
     	user.isHouseProvider = 1;
     	user.update();
     }
+    
+    public static void setProfileImge(String email, String url){
+    	Users user = find.ref(email);
+    	user.profileImage = url;
+    	user.update();
+    }
 }

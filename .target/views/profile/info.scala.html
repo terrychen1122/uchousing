@@ -55,11 +55,8 @@
 		<p class="infoText">@user.neighbor</p>
 	</div>
 	
-	
-	
 	@if(isEditable==1){
-		<br>
-		<div class="col-md-2 col-md-offset-4 editButton" >
-			<a href="@routes.UserProfile.editProfile(user.email)" class="btn btn-primary btn-sm">Edit</a>
-		</div>
+	<div class="col-md-2 col-md-offset-2 editButton">
+		<a href="@routes.UserProfile.editProfile(user.email)" class="btn btn-primary btn-sm">Edit</a>
+	</div>
 	}

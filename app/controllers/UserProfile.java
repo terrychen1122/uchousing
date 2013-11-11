@@ -118,19 +118,11 @@ public class UserProfile extends Controller{
 		return ok(index.render("", Users.find.byId(session().get("email")), House.recentUpdated(4, 0)));
 	}
 	
-	public static Result profileImageUpload(String email){
-		MultipartFormData body = request().body().asMultipartFormData();
-		FilePart picture = body.getFile("picture");
-		if (picture != null){
-			String fileName = picture.getFilename();
-			String contentType = picture.getContentType();
-			File file = picture.getFile();
-			try {
-				FileUtils.moveFile(file, new File("../../public/images/profile_pic/"+email, fileName));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+	public static Result profileImageChange(String url, String email){
+		if(!session().isEmpty()&&session().get("email").equals(email)){
+			Users.setProfileImge(email, url);
+			return profile(email);
 		}
-		return profile(email);
+		return ok(index.render("", Users.find.byId(session().get("email")), House.recentUpdated(4, 0)));
 	}
 }

@@ -85,3 +85,8 @@ label.error {
     vertical-align: top;
     font-weight: 200;
 }
+
+.ui-icon {
+    width: 100px;
+    height: 100px;
+}
