@@ -35,8 +35,15 @@ public class Users extends Model {
 	
 	public String profileImage;
 	
+	@ManyToMany
+	@JoinTable(name="follows", joinColumns=@JoinColumn(name="users_email"), inverseJoinColumns=@JoinColumn(name="follows_email"))
 	public List<Users> followTo = new ArrayList<Users>();
 	
+	@ManyToMany
+	@JoinTable(name="follows", joinColumns=@JoinColumn(name="follows_email"), inverseJoinColumns=@JoinColumn(name="users_email"))
+	public List<Users> followBy = new ArrayList<Users>();
+	
+	@ManyToMany
 	public List<House> subscribeTo = new ArrayList<House>();
 	
 	@Constraints.Required
@@ -83,5 +90,17 @@ public class Users extends Model {
     	Users user = find.ref(email);
     	user.profileImage = url;
     	user.update();
+    }
+    
+    public static void subscribeToHouse(String email, Long id){
+    	Users user = find.ref(email);
+    	user.subscribeTo.add(House.find.ref(id));
+    	user.saveManyToManyAssociations("subscribeTo");
+    }
+    
+    public static void followToUser(String email, String followingEmail){
+    	Users user = find.ref(email);
+    	user.followTo.add(Users.find.ref(followingEmail));
+    	user.saveManyToManyAssociations("followTo");
     }
 }

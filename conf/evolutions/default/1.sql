@@ -11,6 +11,12 @@ create table admin (
   constraint pk_admin primary key (id))
 ;
 
+create table area (
+  id                        bigint auto_increment not null,
+  area                      varchar(255),
+  constraint pk_area primary key (id))
+;
+
 create table comment (
   id                        bigint auto_increment not null,
   user_email                varchar(255),
@@ -53,6 +59,7 @@ create table house (
   rate                      integer,
   availability              integer,
   updated_time              datetime,
+  services_id               bigint,
   constraint pk_house primary key (id))
 ;
 
@@ -96,6 +103,30 @@ create table message (
   constraint pk_message primary key (id))
 ;
 
+create table neighborhood (
+  id                        bigint auto_increment not null,
+  neigbor_type              varchar(255),
+  constraint pk_neighborhood primary key (id))
+;
+
+create table service (
+  id                        bigint auto_increment not null,
+  water                     integer,
+  gas                       integer,
+  heat                      integer,
+  internet                  integer,
+  fitness                   integer,
+  laundry                   integer,
+  parking                   integer,
+  constraint pk_service primary key (id))
+;
+
+create table transportation (
+  id                        bigint auto_increment not null,
+  line                      varchar(255),
+  constraint pk_transportation primary key (id))
+;
+
 create table users (
   email                     varchar(255) not null,
   name                      varchar(255),
@@ -108,6 +139,36 @@ create table users (
   constraint pk_users primary key (email))
 ;
 
+
+create table house_transportation (
+  house_id                       bigint not null,
+  transportation_id              bigint not null,
+  constraint pk_house_transportation primary key (house_id, transportation_id))
+;
+
+create table house_neighborhood (
+  house_id                       bigint not null,
+  neighborhood_id                bigint not null,
+  constraint pk_house_neighborhood primary key (house_id, neighborhood_id))
+;
+
+create table house_area (
+  house_id                       bigint not null,
+  area_id                        bigint not null,
+  constraint pk_house_area primary key (house_id, area_id))
+;
+
+create table follows (
+  users_email                    varchar(255) not null,
+  follows_email                  varchar(255) not null,
+  constraint pk_follows primary key (users_email, follows_email))
+;
+
+create table users_house (
+  users_email                    varchar(255) not null,
+  house_id                       bigint not null,
+  constraint pk_users_house primary key (users_email, house_id))
+;
 alter table comment add constraint fk_comment_user_1 foreign key (user_email) references users (email) on delete restrict on update restrict;
 create index ix_comment_user_1 on comment (user_email);
 alter table comment add constraint fk_comment_commentTo_2 foreign key (comment_to_id) references house (id) on delete restrict on update restrict;
@@ -116,18 +177,42 @@ alter table hpicture add constraint fk_hpicture_house_3 foreign key (house_id) r
 create index ix_hpicture_house_3 on hpicture (house_id);
 alter table house add constraint fk_house_owner_4 foreign key (owner_email) references house_provider (email) on delete restrict on update restrict;
 create index ix_house_owner_4 on house (owner_email);
-alter table message add constraint fk_message_sender_5 foreign key (sender_email) references users (email) on delete restrict on update restrict;
-create index ix_message_sender_5 on message (sender_email);
-alter table message add constraint fk_message_receiver_6 foreign key (receiver_email) references users (email) on delete restrict on update restrict;
-create index ix_message_receiver_6 on message (receiver_email);
+alter table house add constraint fk_house_services_5 foreign key (services_id) references service (id) on delete restrict on update restrict;
+create index ix_house_services_5 on house (services_id);
+alter table message add constraint fk_message_sender_6 foreign key (sender_email) references users (email) on delete restrict on update restrict;
+create index ix_message_sender_6 on message (sender_email);
+alter table message add constraint fk_message_receiver_7 foreign key (receiver_email) references users (email) on delete restrict on update restrict;
+create index ix_message_receiver_7 on message (receiver_email);
 
 
+
+alter table house_transportation add constraint fk_house_transportation_house_01 foreign key (house_id) references house (id) on delete restrict on update restrict;
+
+alter table house_transportation add constraint fk_house_transportation_transportation_02 foreign key (transportation_id) references transportation (id) on delete restrict on update restrict;
+
+alter table house_neighborhood add constraint fk_house_neighborhood_house_01 foreign key (house_id) references house (id) on delete restrict on update restrict;
+
+alter table house_neighborhood add constraint fk_house_neighborhood_neighborhood_02 foreign key (neighborhood_id) references neighborhood (id) on delete restrict on update restrict;
+
+alter table house_area add constraint fk_house_area_house_01 foreign key (house_id) references house (id) on delete restrict on update restrict;
+
+alter table house_area add constraint fk_house_area_area_02 foreign key (area_id) references area (id) on delete restrict on update restrict;
+
+alter table follows add constraint fk_follows_users_01 foreign key (users_email) references users (email) on delete restrict on update restrict;
+
+alter table follows add constraint fk_follows_users_02 foreign key (follows_email) references users (email) on delete restrict on update restrict;
+
+alter table users_house add constraint fk_users_house_users_01 foreign key (users_email) references users (email) on delete restrict on update restrict;
+
+alter table users_house add constraint fk_users_house_house_02 foreign key (house_id) references house (id) on delete restrict on update restrict;
 
 # --- !Downs
 
 SET FOREIGN_KEY_CHECKS=0;
 
 drop table admin;
+
+drop table area;
 
 drop table comment;
 
@@ -137,13 +222,29 @@ drop table hpicture;
 
 drop table house;
 
+drop table house_transportation;
+
+drop table house_neighborhood;
+
+drop table house_area;
+
 drop table house_provider;
 
 drop table institute;
 
 drop table message;
 
+drop table neighborhood;
+
+drop table service;
+
+drop table transportation;
+
 drop table users;
+
+drop table follows;
+
+drop table users_house;
 
 SET FOREIGN_KEY_CHECKS=1;
 

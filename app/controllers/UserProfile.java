@@ -125,4 +125,11 @@ public class UserProfile extends Controller{
 		}
 		return ok(index.render("", Users.find.byId(session().get("email")), House.recentUpdated(4, 0)));
 	}
+	
+	public static Result followUser(String email){
+		if(!session().isEmpty()&&!session().get("email").equals(email)){
+			Users.followToUser(session().get("email"), email);
+		}
+		return ok();
+	}
 }

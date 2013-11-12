@@ -51,9 +51,11 @@ public class House extends Model{
 	@Constraints.Required
 	public String leasingType;
 	
-	public List<String> transportations = new ArrayList<String>();
+	@ManyToMany
+	public List<Transportation> transportations = new ArrayList<Transportation>();
 	
-	public List<String> neighbors = new ArrayList<String>();
+	@ManyToMany
+	public List<Neighborhood> neighbors = new ArrayList<Neighborhood>();
 	
 	public String requirements;
 	
@@ -66,9 +68,11 @@ public class House extends Model{
 	@Formats.DateTime(pattern="YYYY-MM-DD HH:MM:SS")
 	public Date updatedTime;
 	
-	public List<String> areas = new ArrayList<String>();
+	@ManyToMany
+	public List<Area> areas = new ArrayList<Area>();
 	
-	public List<String> services = new ArrayList<String>();
+	@OneToOne
+	public Service services;
 	
 	/*
 	 * Generic query helper for entity HouseProvider with id Long
@@ -108,5 +112,38 @@ public class House extends Model{
 		Date date = new Date();
 		this.updatedTime = date;
 		this.update();
+	}
+	
+	public static void addTransporation(Long id, String trans){
+		List<Transportation> arrayT = Transportation.find.where().eq("line", trans).findList();
+		if(!arrayT.isEmpty()){
+			House house = find.ref(id);
+			house.transportations.add(arrayT.get(0));
+			house.saveManyToManyAssociations("transportations");
+		}
+	}
+	
+	public static void setService(Long id, Long serviceID){
+		House house = find.ref(id);
+		house.services = Service.find.ref(serviceID);
+		house.update();
+	}
+	
+	public static void addArea(Long id, String area){
+		List<Area> arrayA = Area.find.where().eq("area", area).findList();
+		if(!arrayA.isEmpty()){
+			House house = find.ref(id);
+			house.areas.add(arrayA.get(0));
+			house.saveManyToManyAssociations("areas");
+		}
+	}
+	
+	public static void addNeighbor(Long id, String type){
+		List<Neighborhood> arrayN = Neighborhood.find.where().eq("neigbor_type", type).findList();
+		if(!arrayN.isEmpty()){
+			House house = find.ref(id);
+			house.neighbors.add(arrayN.get(0));
+			house.saveManyToManyAssociations("neighbors");
+		}
 	}
 }
