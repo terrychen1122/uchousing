@@ -58,8 +58,16 @@
                         zipCode: {
                             required:true,
                             number: true
+                        },
+                        area: {
+                            required:true
+                        },
+                        trans: {
+                            required:true
+                        },
+                        neighbor: {
+                            required:true
                         }
-                        
                     }
             });
             

@@ -25,10 +25,10 @@
 							<div class="col-md-6 col-md-offset-3">
    								<label for="houseType" class="control-label text">Type<span class="star">*</span></label>
    								<select class="form-control" name="houseType">
-   									<option>studio</option>
-   									<option>one bedroom</option>
-   									<option>two bedroom</option>
-  									<option>three bedroom</option>
+   									<option @if(house.houseType=="studio"){selected="selected"}>studio</option>
+   									<option @if(house.houseType=="one bedroom"){selected="selected"}>one bedroom</option>
+   									<option @if(house.houseType=="two bedroom"){selected="selected"}>two bedroom</option>
+  									<option @if(house.houseType=="three bedroom"){selected="selected"}>three bedroom</option>
    								</select>
 							</div>
 						</div>
@@ -46,10 +46,10 @@
 								<div class="col-md-6 col-md-offset-3">
    									<label for="leasingType" class="control-label text">Leasing Type<span class="star">*</span></label>
    									<select class="form-control" name="leasingType">
-   										<option>sublease</option>
-   										<option>one year contract</option>
-   										<option>Month based</option>
-   										<option>Negotiatable</option>
+   										<option @if(house.leasingType=="sublease"){selected="selected"}>sublease</option>
+   										<option @if(house.leasingType=="one year contract"){selected="selected"}>one year contract</option>
+   										<option @if(house.leasingType=="Month based"){selected="selected"}>Month based</option>
+   										<option @if(house.leasingType=="Negotiatable"){selected="selected"}>Negotiatable</option>
    									</select>
 								</div>
 							</div>
@@ -100,7 +100,7 @@
    									<label for="state" class="control-label text">State<span class="star">*</span></label>
    									<select class="form-control" name="state">
    										@for(state <- State.optionList){
-   											<option>@state</option>
+   											<option @if(house.state==state){selected="selected"}>@state</option>
    										}
    									</select>
 								</div>
@@ -111,6 +111,68 @@
 							<div class="col-md-6 col-md-offset-3">
    								<label for="zipCode" class="control-label text">Zip<span class="star">*</span></label>
 								<input type="text" class="form-control" name="zipCode" id="zipCode" value="@house.zipCode">
+							</div>
+						</div>
+       				</div>
+       				<div class="form-group">
+          				<div class="clearfix">
+							<div class="col-md-6 col-md-offset-3">
+   								<label for="area" class="control-label text">Area<span class="star">*</span></label>
+   								<select class="form-control" name="area">
+   									@for(area <- Area.optionList){
+   										<option @if(house.area==area){selected="selected"}>@area</option>
+   									}
+  									</select>
+							</div>
+						</div>
+        			</div>
+       				<div class="form-group">
+          				<div class="clearfix">
+							<div class="col-md-6 col-md-offset-3">
+   								<label for="neighbor" class="control-label text">Neighbor<span class="star">*</span></label>
+   								<select class="form-control" name="neighbor">
+   									@for(neighbor <- Neighborhood.optionList){
+   										<option @if(house.neighbor==neighbor){selected="selected"}>@neighbor</option>
+   									}
+  									</select>
+							</div>
+						</div>
+        			</div>
+        			<div class="form-group">
+        				<div class="clearfix">
+        					<div class="col-md-6 col-md-offset-3">
+        						<label for="trans" class="control-label text">Public Transportation<span class="star">*</span></label>
+        						<input type="text" class="form-control" name="trans" id="trans" 
+        						value="@for(trans <- house.transportations){@trans.line }">
+        					</div>
+        				</div>
+        			</div>
+        			<div class="form-group">
+        				<div class="clearfix">
+        					<div class="col-md-6 col-md-offset-3">
+           						<label class="control-label text">Services<span class="star">*</span></label>
+           						<br>
+           						<label class="checkbox-inline">
+  									<input type="checkbox" name="water" value="water" @if(house.services.water==1){ checked }>water
+								</label>
+								<label class="checkbox-inline">
+									<input type="checkbox" name="gas" value="gas" @if(house.services.gas==1){ checked }>gas
+								</label>
+								<label class="checkbox-inline">
+									<input type="checkbox" name="heat" value="heat" @if(house.services.heat==1){ checked }>heat
+								</label>
+								<label class="checkbox-inline">
+									<input type="checkbox" name="Internet" value="internet" @if(house.services.internet==1){ checked }>Internet
+								</label>
+								<label class="checkbox-inline">
+									<input type="checkbox" name="fitness" value="fitness" @if(house.services.fitness==1){ checked }>fitness
+								</label>
+								<label class="checkbox-inline">
+									<input type="checkbox" name="laundry" value="laundry" @if(house.services.laundry==1){ checked }>laundry
+								</label>
+								<label class="checkbox-inline">
+									<input type="checkbox" name="parking" value="parking" @if(house.services.parking==1){ checked }>parking
+								</label>
 							</div>
 						</div>
        				</div>
@@ -167,6 +229,9 @@
 					required: true,
 					number: true
 				}
+				area: "required",
+				neighbor: "required",
+				trans: "required"
 			}
 		});
 		

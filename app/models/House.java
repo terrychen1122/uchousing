@@ -54,8 +54,7 @@ public class House extends Model{
 	@ManyToMany
 	public List<Transportation> transportations = new ArrayList<Transportation>();
 	
-	@ManyToMany
-	public List<Neighborhood> neighbors = new ArrayList<Neighborhood>();
+	public String neighbor;
 	
 	public String requirements;
 	
@@ -68,8 +67,7 @@ public class House extends Model{
 	@Formats.DateTime(pattern="YYYY-MM-DD HH:MM:SS")
 	public Date updatedTime;
 	
-	@ManyToMany
-	public List<Area> areas = new ArrayList<Area>();
+	public String area;
 	
 	@OneToOne
 	public Service services;
@@ -107,20 +105,36 @@ public class House extends Model{
 		this.city = data.get("city")[0];
 		this.state = data.get("state")[0];
 		this.zipCode = data.get("zipCode")[0];
+		this.neighbor = data.get("neighbor")[0];
+		this.area = data.get("area")[0];
 		this.requirements = data.get("requirements")[0];
 		this.description = data.get("description")[0];
 		Date date = new Date();
 		this.updatedTime = date;
+		this.editService(data);
+		
+		String tranString = data.get("trans")[0];
+		List<String> transportationArray = Arrays.asList(tranString.split(" "));
+		this.transportations.clear();
+		for(String line : transportationArray){
+			if(!line.equals("")){
+				addTransportation(this.id, line);
+			}
+		}
 		this.update();
 	}
 	
-	public static void addTransporation(Long id, String trans){
+	public static void addTransportation(Long id, String trans){
 		List<Transportation> arrayT = Transportation.find.where().eq("line", trans).findList();
+		House house = find.ref(id);
 		if(!arrayT.isEmpty()){
-			House house = find.ref(id);
-			house.transportations.add(arrayT.get(0));
-			house.saveManyToManyAssociations("transportations");
+			if(!house.transportations.contains(arrayT.get(0))){
+				house.transportations.add(arrayT.get(0));
+			}
+		}else{
+			house.transportations.add(Transportation.create(trans));
 		}
+		//house.saveManyToManyAssociations("transportations");
 	}
 	
 	public static void setService(Long id, Long serviceID){
@@ -129,21 +143,18 @@ public class House extends Model{
 		house.update();
 	}
 	
-	public static void addArea(Long id, String area){
-		List<Area> arrayA = Area.find.where().eq("area", area).findList();
-		if(!arrayA.isEmpty()){
-			House house = find.ref(id);
-			house.areas.add(arrayA.get(0));
-			house.saveManyToManyAssociations("areas");
-		}
+	public void editService(Map<String,String[]> data){
+		
+		Service service = Service.find.ref(this.services.id);
+		service.water = (data.get("water")==null)? 0: 1;
+		service.gas = (data.get("gas")==null)? 0: 1;
+		service.heat = (data.get("heat")==null)? 0: 1;
+		service.internet = (data.get("internet")==null)? 0: 1;
+		service.fitness = (data.get("fitness")==null)? 0: 1;
+		service.laundry = (data.get("laundry")==null)? 0: 1;
+		service.parking = (data.get("parking")==null)? 0: 1;
+		service.save();
+		this.services = service;
 	}
 	
-	public static void addNeighbor(Long id, String type){
-		List<Neighborhood> arrayN = Neighborhood.find.where().eq("neigbor_type", type).findList();
-		if(!arrayN.isEmpty()){
-			House house = find.ref(id);
-			house.neighbors.add(arrayN.get(0));
-			house.saveManyToManyAssociations("neighbors");
-		}
-	}
 }

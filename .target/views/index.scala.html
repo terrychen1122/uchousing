@@ -30,6 +30,9 @@
 		<div class="container well posting">
 			<div class="row title">
 				<h4>Recent Updates:</h4>
+				@if(posts.size==0){
+				<h5>No resources in the database.</h5>
+				}
 			</div>
 			
 			<div class="row posts">
@@ -37,7 +40,7 @@
 				<div class="col-lg-3"> 
 					<h2>@house.name</h2>
 					<p>@house.description</p>
-					<p><a class="btn btn-default" href="#">View Details</a></p>
+					<p><a class="btn btn-default" href="@routes.Houses.profile(house.id)">View Details</a></p>
 				</div>
 				}
 				

@@ -1,4 +1,4 @@
-@(user: Users, logUser: Users, isEditable: Integer, mainWindow: String, form: Form[UserProfile.Profile], providerForm: Form[HouseProvider])
+@(user: Users, logUser: Users, isEditable: Integer, mainWindow: String, providerForm: Form[HouseProvider])
 
 @implicitFieldConstructor = @{ helper.FieldConstructor(twitterBootstrapApplicationInput.render) }
 
@@ -13,10 +13,19 @@
 				<img id="profilePic" src="@routes.Assets.at("images/profile_pic/" + user.profileImage)" alt="profileImage" class="img-thumbnail" data-toggle="tooltip" title="Click to change profile picture">
 			</div>
 			<p class ="username"><a href="@routes.UserProfile.profile(user.email)">@user.name</a></p>
+			@if(isEditable==0&&(logUser!=null)){
+				<div class="button-wrapper">
+				@if(logUser.followTo.contains(user)){
+				<a href="@routes.UserProfile.unfollowUser(user.email)"><button class="btn btn-xs btn-primary">Unfollow</button></a>
+				}else{
+				<a href="@routes.UserProfile.followUser(user.email)"><button class="btn btn-xs btn-primary">Follow</button></a>
+				}
+				</div>
+			}
 			<br>
 			<hr>
 			
-			<!-- Show subscribe, follow, and listing -->
+			<!-- Show subscribe, and follow -->
 			<div class="row">
 			<div class="col-sm-6">
 				<p class="text-center quickLinkText">Subscribe</p>
@@ -25,7 +34,7 @@
 				<p class="text-center quickLinkText">Follow</p>
 			</div>
 			</div>
-			<!-- number of subscribe anfollow -->
+			<!-- number of subscribe and follow -->
 			<div class="row">
 			<div class="col-sm-6">
 				<p class="text-center customNumber1"><a href="@routes.UserProfile.getSubscribe(user.email)">@user.subscribeTo.length</a></p>
@@ -37,11 +46,13 @@
 			<br>
 			<!-- Button to edit profile or apply for house provider -->
 			
-				<div class="col-md-10 col-md-offset-2 profileButton1">
+				<div class="button-wrapper profileButton1">
 					@if((user.isHouseProvider==0)&&(isEditable==1)){
 						<a data-toggle="modal" href="#ApplicationModal" class="btn btn-info">Apply for Houses Provider</a>
 					}else{
+						@if(user.isHouseProvider==1){
 						<a href="@routes.ProviderProfile.profile(user.email)" class="btn btn-info">House Provider Profile</a>
+						}
 					}
 				</div>
 			
@@ -122,10 +133,10 @@
         		</div>
         		<div class="modal-body">
           			@helper.form(routes.UserProfile.processApplication(user.email), 'id -> "appForm", 'class -> "form-horizontal", 'role -> "form") {
-						@if(form.hasGlobalErrors) { 
+						@if(providerForm.hasGlobalErrors) { 
                 			<div class="form-group error">
                					<div class="col-md-4 col-md-offset-4">
-                   					<p class="text-center text-danger">@form.globalError.message</p>
+                   					<p class="text-center text-danger">@providerForm.globalError.message</p>
                					</div>
                				</div>
         				}
@@ -133,7 +144,7 @@
         				<br>
         				<div class="form-group">
             				@helper.inputText(
-            					form("fname"),
+            					providerForm("fname"),
            						'class -> "form-control",
            						'id -> "fname",
            						'_label -> "First Name",
@@ -141,7 +152,7 @@
            					)
            					
            					@helper.inputText(
-            					form("lname"),
+            					providerForm("lname"),
            						'class -> "form-control",
            						'id -> "lname",
            						'_label -> "Last Name",
@@ -149,7 +160,7 @@
            					)
            					
            					@helper.inputText(
-            					form("occupation"),
+            					providerForm("occupation"),
            						'class -> "form-control",
            						'id -> "occupation",
            						'_label -> "Occupation",
@@ -157,7 +168,7 @@
            					)
            					
            					@helper.select(
-            					form("providerType"),
+            					providerForm("providerType"),
             					helper.options("individual"->"Individual", "agency"->"Agency", "corporate"->"Corporate"),
             					'id -> "type",
             					'_label -> "Type", 
@@ -167,7 +178,7 @@
             				)
            					
            					@helper.inputText(
-            					form("addressLine1"),
+            					providerForm("addressLine1"),
            						'class -> "form-control",
            						'id -> "address",
            						'_label -> "Address 1",
@@ -175,7 +186,7 @@
            					)
            					
            					@helper.inputText(
-            					form("addressLine2"),
+            					providerForm("addressLine2"),
            						'class -> "form-control",
            						'_label -> "Address 2",
            						'id -> "address2",
@@ -183,14 +194,14 @@
            					)
            					
            					@helper.inputText(
-            					form("city"),
+            					providerForm("city"),
            						'class -> "form-control",
            						'id -> "city",
            						'_label -> "City"
            					)
            					
            					@helper.select(
-            					form("states"),
+            					providerForm("states"),
             					helper.options(State.options),
             					'id -> "state",
             					'_label -> "State", 
@@ -200,14 +211,14 @@
             				)
             				
             				@helper.inputText(
-            					form("zipCode"),
+            					providerForm("zipCode"),
            						'class -> "form-control",
            						'id -> "zip",
            						'_label -> "zip"
            					)
            					
            					@helper.textarea(
-           						form("description"),
+           						providerForm("description"),
            						'class -> "form-control",
            						'rows -> "3",
            						'_label -> "Description (Max. 200 characters)",
@@ -232,7 +243,7 @@
 			@views.html.profile.info(user, isEditable)
 		}
 		@if(mainWindow.equals("edit")){
-			@views.html.profile.edit(user, form)
+			@views.html.profile.edit(user)
 		}
 		@if(mainWindow.equals("follow")){
 			@views.html.profile.follow(user, isEditable)
@@ -246,9 +257,12 @@
 	<br>
 	
 	<script>
+	
+		@if(logUser==user){
 		$('#profilePic').click(function(){
 			$('#uploadModal').modal('show');
 		});
+		}
 		
 		$('#appForm').validate({
 			rules: {

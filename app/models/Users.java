@@ -71,9 +71,10 @@ public class Users extends Model {
         return null;
     }
     
-    public static void edit(String email, String name, String phone, String type, String neighbor) {
+    public static void edit(String email, String name, String passwd, String phone, String type, String neighbor) {
     	Users user = find.ref(email);
     	user.name = name;
+    	user.passwd = passwd;
     	user.phone = phone;
     	user.preferredType = type;
     	user.neighbor = neighbor;
@@ -101,6 +102,13 @@ public class Users extends Model {
     public static void followToUser(String email, String followingEmail){
     	Users user = find.ref(email);
     	user.followTo.add(Users.find.ref(followingEmail));
+    	user.saveManyToManyAssociations("followTo");
+    }
+    
+    public static void unfollowToUser(String email, String followingEmail){
+    	Users user = find.ref(email);
+    	Users follow = find.ref(followingEmail);
+    	user.followTo.remove(follow);
     	user.saveManyToManyAssociations("followTo");
     }
 }

@@ -1,4 +1,4 @@
-@(user: Users, form: Form[UserProfile.Profile])
+@(user: Users)
 
 @implicitFieldConstructor = @{ helper.FieldConstructor(twitterBootstrapEditInput.render) } 
 
@@ -13,87 +13,98 @@
 		<hr class="hdivider">
 	</div>
 	
-	@helper.form(routes.UserProfile.processEdit(user.email), 'id -> "editForm", 'class -> "form-horizontal", 'role -> "form") {
+	<form role="form" class="form-horizontal" id="editForm" method="post" action="@routes.UserProfile.processEdit(user.email)">
     <div class="col-md-8 col-md-offset-2 well">
    	<fieldset>
    		<br>
         <div class="form-group">
-            	@helper.inputText(
-            		form("name"),
-           			'class -> "form-control",
-           			'id -> "inputName",
-           			'_label -> "User Name",
-           			'name -> "name",
-           			'placeholder -> user.name
-           		)
+        	<div class="clearfix">
+				<div class="col-md-5 col-md-offset-1 info">
+    			<label for="inputName" class="control-label text text-right">User Name</label>
+    			</div>
+    			<div class="col-md-5 ">
+					<input type="text" class="form-control" id="inputName" name="name" value="@user.name">
+				</div>
+				<span class="star star-adjacent">*</span>
+			</div>
         </div>
         
         <div class="form-group">
-        		@helper.inputText(
-        			form("passwd1"),
-        			'class -> "form-control",
-        			'id -> "passwd1",
-        			'type -> "password",
-        			'_label -> "Password",
-        			'placeholder -> "Enter password"
-        		)
+        	<div class="clearfix">
+				<div class="col-md-5 col-md-offset-1 info">
+    			<label for="passwd1" class="control-label text text-right">Password</label>
+    			</div>
+    			<div class="col-md-5 ">
+					<input type="password" class="form-control" id="passwd1" name="passwd1" placeholder="Enter password">
+				</div>
+				<span class="star star-adjacent">*</span>
+			</div>
         </div>
         
         <div class="form-group">
-        		@helper.inputText(
-        			form("passwd2"),
-        			'class -> "form-control",
-        			'id -> "passwd2",
-        			'type -> "password",
-        			'_label -> "Confirm Password"
-        		)
+        	<div class="clearfix">
+				<div class="col-md-5 col-md-offset-1 info">
+    			<label for="passwd2" class="control-label text text-right">Confirm Password</label>
+    			</div>
+    			<div class="col-md-5 ">
+					<input type="password" class="form-control" id="passwd2" name="passwd2" placeholder="Enter passwd again">
+				</div>
+			</div>
         </div>
         
         <div class="form-group">
-            	@helper.inputText(
-            		form("phone"),
-           			'class -> "form-control",
-           			'id -> "inputPhone",
-           			'_label -> "Phone",
-           			'name -> "phone",
-           			'placeholder -> user.phone
-           		)
+        	<div class="clearfix">
+				<div class="col-md-5 col-md-offset-1 info">
+    			<label for="inputPhone" class="control-label text text-right">Phone</label>
+    			</div>
+    			<div class="col-md-5 ">
+					<input type="text" class="form-control" id="inputPhone" name="phone" value="@user.phone">
+				</div>
+				<span class="star star-adjacent">*</span>
+			</div>
         </div>
         
         <div class="form-group">
-            		@helper.select(
-                		form("preferredType"), 
-                		helper.options(HouseType.options), 
-                		'id -> "inputHouseType",
-                		'_label -> "House type", 
-                		'_default -> user.preferredType,
-                		'_showConstraints -> false,
-                		'class -> "form-control"
-            		)
+        	<div class="clearfix">
+				<div class="col-md-5 col-md-offset-1 info">
+    			<label for="inputHouseType" class="control-label text text-right">House Type</label>
+    			</div>
+    			<div class="col-md-5 ">
+					<select name="preferredType" id="inputHouseType" class="form-control">
+						@for(option <- HouseType.optionList){
+						<option @if(user.preferredType==option){selected="selected"}>@option</option>
+						}
+					</select>
+				</div>
+				<span class="star star-adjacent">*</span>
+			</div>
         </div>
         
         <div class="form-group">
-            		@helper.select(
-            			form("neighbor"),
-            			helper.options(Neighborhood.options),
-            			'id -> "inputNeighborType",
-            			'_label -> "Surrounding", 
-            			'_default -> user.neighbor,
-            			'_showConstraints -> false,
-            			'class -> "form-control"
-            		)
+        	<div class="clearfix">
+				<div class="col-md-5 col-md-offset-1 info">
+    			<label for="inputNeighborType" class="control-label text text-right">Surrounding</label>
+    			</div>
+    			<div class="col-md-5 ">
+					<select name="neighbor" id="inputNeighborType" class="form-control">
+						@for(n <- Neighborhood.optionList){
+						<option @if(user.neighbor==n){selected="selected"}>@n</option>
+						}
+					</select>
+				</div>
+				<span class="star star-adjacent">*</span>
+			</div>
         </div>
    	</fieldset>
 	</div>
 	<div class="form-group actions">
-				<div class="col-md-offset-5 col-md-3">
+				<div class="col-md-5 col-md-offset-4">
             		<input type="submit" value="Submit" class="btn btn-primary customButton"> 
             		
            	 		<a href="@routes.UserProfile.profile(user.email)" class="btn btn-default customButton">Cancel</a> 
            	 	</div>
     </div>
-
-	}
+    </form>
 	<script>
 	$('#editForm').validate({
 		rules: {

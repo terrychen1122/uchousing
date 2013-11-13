@@ -11,10 +11,10 @@ body {
   margin-bottom: 20px;
 }
 
-.posting .title h4{
+.posting .title h4,
+.posting .title h5{
     position: relative;
     left: 40px;
-    
 }
 
 .posting-divider {

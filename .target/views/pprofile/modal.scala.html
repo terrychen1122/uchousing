@@ -112,6 +112,62 @@
            					'_label -> "zip",
            					'name -> "zip"
            				)
+           				
+           				@helper.select(
+           					form("area"),
+           					helper.options(Area.options),
+           					'id -> "add-area",
+           					'_label -> "Area",
+           					'_default -> "-- Select Area --",
+           					'_showConstraints -> false,
+           					'class -> "form-control",
+           					'name -> "area"
+           				)
+           				
+           				@helper.select(
+           					form("neighbor"),
+           					helper.options(Neighborhood.options),
+           					'id -> "add-neighbor",
+           					'_label -> "Neighbor",
+           					'_default -> "-- Select Neighbor --",
+           					'_showConstraints -> false,
+           					'class -> "form-control",
+           					'name -> "neighbor"
+           				)
+           				
+           				@helper.inputText(
+           					form("trans"),
+           					'class -> "form-control",
+           					'id -> "trans",
+           					'_label -> "Public Transportation"
+           				)
+           				
+           				<div class="col-md-7 col-md-offset-2">
+           				<label class="control-label text">Services<span class="star">*</span></label>
+           				<br>
+           				<label class="checkbox-inline">
+  							<input type="checkbox" name="water" value="water">water
+						</label>
+						<label class="checkbox-inline">
+							<input type="checkbox" name="gas" value="gas">gas
+						</label>
+						<label class="checkbox-inline">
+							<input type="checkbox" name="heat" value="heat">heat
+						</label>
+						<label class="checkbox-inline">
+							<input type="checkbox" name="Internet" value="internet">Internet
+						</label>
+						<label class="checkbox-inline">
+							<input type="checkbox" name="fitness" value="fitness">fitness
+						</label>
+						<label class="checkbox-inline">
+							<input type="checkbox" name="laundry" value="laundry">laundry
+						</label>
+						<label class="checkbox-inline">
+							<input type="checkbox" name="parking" value="parking">parking
+						</label>
+						</div>
+           				
            					
            				@helper.inputText(
            					form("requirement"),
@@ -163,9 +219,9 @@
 								<div class="col-md-7 col-md-offset-2">
    									<label for="providerType" class="control-label text">Type<span class="star">*</span></label>
    									<select class="form-control" name="providerType">
-   										<option>agency</option>
-   										<option>individual</option>
-   										<option>corporate</option>
+   										<option @if(provider.providerType=="agency"){selected="selected"}>agency</option>
+   										<option @if(provider.providerType=="individual"){selected="selected"}>individual</option>
+   										<option @if(provider.providerType=="corporate"){selected="selected"}>corporate</option>
    									</select>
 								</div>
 							</div>
@@ -200,7 +256,7 @@
    									<label for="states" class="control-label text">State<span class="star">*</span></label>
    									<select class="form-control" name="states">
    										@for(state <- State.optionList){
-   											<option>@state</option>
+   											<option @if(provider.states==state){selected="selected"}>@state</option>
    										}
    									</select>
 								</div>
@@ -222,7 +278,6 @@
 								</div>
 							</div>
           				</div>
-          			
         		</div>
         		<div class="modal-footer form-group action">
           			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

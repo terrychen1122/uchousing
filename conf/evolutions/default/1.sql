@@ -11,12 +11,6 @@ create table admin (
   constraint pk_admin primary key (id))
 ;
 
-create table area (
-  id                        bigint auto_increment not null,
-  area                      varchar(255),
-  constraint pk_area primary key (id))
-;
-
 create table comment (
   id                        bigint auto_increment not null,
   user_email                varchar(255),
@@ -55,10 +49,12 @@ create table house (
   zip_code                  varchar(255),
   price                     float,
   leasing_type              varchar(255),
+  neighbor                  varchar(255),
   requirements              varchar(255),
   rate                      integer,
   availability              integer,
   updated_time              datetime,
+  area                      varchar(255),
   services_id               bigint,
   constraint pk_house primary key (id))
 ;
@@ -103,12 +99,6 @@ create table message (
   constraint pk_message primary key (id))
 ;
 
-create table neighborhood (
-  id                        bigint auto_increment not null,
-  neigbor_type              varchar(255),
-  constraint pk_neighborhood primary key (id))
-;
-
 create table service (
   id                        bigint auto_increment not null,
   water                     integer,
@@ -146,18 +136,6 @@ create table house_transportation (
   constraint pk_house_transportation primary key (house_id, transportation_id))
 ;
 
-create table house_neighborhood (
-  house_id                       bigint not null,
-  neighborhood_id                bigint not null,
-  constraint pk_house_neighborhood primary key (house_id, neighborhood_id))
-;
-
-create table house_area (
-  house_id                       bigint not null,
-  area_id                        bigint not null,
-  constraint pk_house_area primary key (house_id, area_id))
-;
-
 create table follows (
   users_email                    varchar(255) not null,
   follows_email                  varchar(255) not null,
@@ -190,14 +168,6 @@ alter table house_transportation add constraint fk_house_transportation_house_01
 
 alter table house_transportation add constraint fk_house_transportation_transportation_02 foreign key (transportation_id) references transportation (id) on delete restrict on update restrict;
 
-alter table house_neighborhood add constraint fk_house_neighborhood_house_01 foreign key (house_id) references house (id) on delete restrict on update restrict;
-
-alter table house_neighborhood add constraint fk_house_neighborhood_neighborhood_02 foreign key (neighborhood_id) references neighborhood (id) on delete restrict on update restrict;
-
-alter table house_area add constraint fk_house_area_house_01 foreign key (house_id) references house (id) on delete restrict on update restrict;
-
-alter table house_area add constraint fk_house_area_area_02 foreign key (area_id) references area (id) on delete restrict on update restrict;
-
 alter table follows add constraint fk_follows_users_01 foreign key (users_email) references users (email) on delete restrict on update restrict;
 
 alter table follows add constraint fk_follows_users_02 foreign key (follows_email) references users (email) on delete restrict on update restrict;
@@ -212,8 +182,6 @@ SET FOREIGN_KEY_CHECKS=0;
 
 drop table admin;
 
-drop table area;
-
 drop table comment;
 
 drop table distance;
@@ -224,17 +192,11 @@ drop table house;
 
 drop table house_transportation;
 
-drop table house_neighborhood;
-
-drop table house_area;
-
 drop table house_provider;
 
 drop table institute;
 
 drop table message;
-
-drop table neighborhood;
 
 drop table service;
 

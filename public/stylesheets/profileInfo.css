@@ -1,9 +1,9 @@
-.header {
+.info-header {
     margin-top: 20px;
     margin-bottom: 0px;
 }
 
-.header .text {
+.info-header .text {
     font-size: 20px;
     font-family: Verdana;
     font-weight: bold;
@@ -60,4 +60,8 @@
 .customButton {
     margin:auto;
     width:45%;
+}
+
+.button-wrapper {
+    text-align: center;
 }

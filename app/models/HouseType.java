@@ -20,4 +20,7 @@ public class HouseType  {
         return options;
     }
 	
+	public static List<String> optionList(){
+		return list();
+	}
 }

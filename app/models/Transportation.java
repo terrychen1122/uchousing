@@ -28,4 +28,11 @@ public class Transportation extends Model {
 		return all;
 	}
 	
+	public static Transportation create(String trans){
+		Transportation t = new Transportation();
+		t.line = trans;
+		t.save();
+		return t;
+	}
+	
 }

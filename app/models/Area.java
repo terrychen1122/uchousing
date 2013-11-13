@@ -2,33 +2,31 @@ package models;
 
 import java.util.*;
 
-import javax.persistence.*;
 
-import play.db.ebean.*;
-import play.db.ebean.Model.Finder;
-import play.data.format.*;
-import play.data.validation.*;
-
-@Entity
-public class Area extends Model {
-//	public static List<String> list() {
-//		List<String> all = new ArrayList<String>();
-//		all.add("Cleveland Heights");
-//		return all;
-//	}
-	
-	@Id
-	@Constraints.Required
-	public Long id;
-	
-	@Constraints.Required
-	public String area;
-	
-	public static Finder<Long, Area> find = new Finder<Long, Area>(Long.class, Area.class);
+public class Area  {
 	
 	public static List<String> list(){
 		List<String> all = new ArrayList<String>();
 		all.add("Cleveland Heights");
+		all.add("East Cleveland");
+		all.add("Downtown Cleveland");
+		all.add("West Cleveland");
+		all.add("Asian Town");
+		all.add("University Circle");
+		all.add("Beachwood area");
+		all.add("Other");
 		return all;
+	}
+	
+	public static Map<String,String> options() {
+        LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
+        for(String c: Area.list()) {
+            options.put(c, c);
+        }
+        return options;
+    }
+	
+	public static List<String> optionList(){
+		return Area.list();
 	}
 }

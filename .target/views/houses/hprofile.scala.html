@@ -50,6 +50,14 @@
 				<div class="col-md-5"><p>$@house.price </p></div>
 			</div>
 			<div class="row">
+				<div class="col-md-3"><p>Area: </p></div>
+				<div class="col-md-5"><p>@house.area</p></div>
+			</div>
+			<div class="row">
+				<div class="col-md-3"><p>Surrounding: </p></div>
+				<div class="col-md-5"><p>@house.neighbor</p></div>
+			</div>
+			<div class="row">
 				<div class="col-md-3"><p>Rate: </p></div>
 				<div class="col-md-3"><p>@house.rate out of 5</p></div>
 				<div class="btn-group">
@@ -77,8 +85,6 @@
 		<ul class="nav nav-tabs">
   			<li><a href="#description" data-toggle="tab">Description</a></li>
   			<li><a href="#address" data-toggle="tab">Address</a></li>
-  			<li><a href="#services" data-toggle="tab">Services</a></li>
-  			<li><a href="#neighbor" data-toggle="tab">Neighbor</a></li>
   			<li><a href="#map" data-toggle="tab">Map</a></li>
   			<li><a href="#comment" data-toggle="tab">Comments</a></li>
 		</ul>
@@ -97,6 +103,22 @@
   					<p>@house.requirements</p>
   					}
 				</blockquote>
+				<blockquote>
+					<h5>Transportation: </h5>
+					<p>@for(t <- house.transportations){@t.line }</p>
+				</blockquote>
+				<blockquote>
+					<h5>Services: </h5>
+					<p>
+					@if(house.services.water==1){water&nbsp; }
+					@if(house.services.gas==1){gas&nbsp; }
+					@if(house.services.heat==1){heat&nbsp;}
+					@if(house.services.internet==1){internet&nbsp;}
+					@if(house.services.fitness==1){fitness&nbsp;}
+					@if(house.services.laundry==1){laundry&nbsp;}
+					@if(house.services.parking==1){parking&nbsp;}
+					</p>
+				</blockquote>
 			</div>
   			<div class="tab-pane" id="address">
   				<br>
@@ -108,12 +130,6 @@
   					<abbr title="Phone">P:</abbr> @Users.find.byId(house.owner.email).phone
 				</address>
 				</blockquote>
-  			</div>
-  			<div class="tab-pane" id="services">
-  			
-  			</div>
-  			<div class="tab-pane" id="neighbor">
-  			
   			</div>
   			<div class="tab-pane" id="map">
   			

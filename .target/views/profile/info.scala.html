@@ -1,9 +1,10 @@
 @(user: Users, isEditable: Integer)
 	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/profileInfo.css")">
 	<br>
-	<div class="col-md-6 col-md-offset-1 header">
-		<p class="text">Account Information</p>
+	<div class="col-md-10 col-md-offset-1 info-header">
+		<p class="text">Account Information @if(isEditable==1){<a href="@routes.UserProfile.editProfile(user.email)"><span class="glyphicon glyphicon-cog"></span></a>}</p>
 	</div>
+	
 	<div class="col-md-10 col-md-offset-1">
 		<hr class="hdivider">
 	</div>
@@ -54,9 +55,3 @@
 	<div class="col-md-5 info">
 		<p class="infoText">@user.neighbor</p>
 	</div>
-	
-	@if(isEditable==1){
-	<div class="col-md-2 col-md-offset-2 editButton">
-		<a href="@routes.UserProfile.editProfile(user.email)" class="btn btn-primary btn-sm">Edit</a>
-	</div>
-	}

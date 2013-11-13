@@ -61,7 +61,7 @@ public class Service extends Model{
 		return all;		
 	}
 	
-	public static void create(Boolean water, Boolean gas, Boolean heat, Boolean internet, Boolean fitness, Boolean laundry, Boolean parking){
+	public static Service create(Boolean water, Boolean gas, Boolean heat, Boolean internet, Boolean fitness, Boolean laundry, Boolean parking){
 		Service s = new Service();
 		s.water = water? 1: 0;
 		s.gas = gas? 1:0;
@@ -71,5 +71,6 @@ public class Service extends Model{
 		s.laundry = laundry? 1:0;
 		s.parking = parking? 1:0;
 		s.save();
+		return s;
 	}
 }

@@ -90,3 +90,7 @@ label.error {
     width: 100px;
     height: 100px;
 }
+
+.button-wrapper {
+    text-align: center;
+}

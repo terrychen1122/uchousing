@@ -9,7 +9,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 header">
-				<h1>House Provider: @provider.fname @provider.lname</h1>
+				<h1>House Provider: <a href="@routes.ProviderProfile.profile(provider.email)">@provider.fname @provider.lname</a></h1>
 			</div>
 			
 			<div class="well col-md-3 side-bar">

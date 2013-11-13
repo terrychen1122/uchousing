@@ -1,4 +1,4 @@
-@(user: Users, logUser: Users, isEditable: Integer, mainWindow: String, form: Form[UserProfile.Profile], providerForm: Form[HouseProvider])
+@(user: Users, logUser: Users, isEditable: Integer, mainWindow: String, providerForm: Form[HouseProvider])
 
 @implicitFieldConstructor = @{ helper.FieldConstructor(twitterBootstrapApplicationInput.render) }
 
@@ -13,10 +13,19 @@
 				<img id="profilePic" src="@routes.Assets.at("images/profile_pic/" + user.profileImage)" alt="profileImage" class="img-thumbnail" data-toggle="tooltip" title="Click to change profile picture">
 			</div>
 			<p class ="username"><a href="@routes.UserProfile.profile(user.email)">@user.name</a></p>
+			@if(isEditable==0&&(logUser!=null)){
+				<div class="button-wrapper">
+				@if(logUser.followTo.contains(user)){
+				<a href="@routes.UserProfile.unfollowUser(user.email)"><button class="btn btn-xs btn-primary">Unfollow</button></a>
+				}else{
+				<a href="@routes.UserProfile.followUser(user.email)"><button class="btn btn-xs btn-primary">Follow</button></a>
+				}
+				</div>
+			}
 			<br>
 			<hr>
 			
-			<!-- Show subscribe, follow, and listing -->
+			<!-- Show subscribe, and follow -->
 			<div class="row">
 			<div class="col-sm-6">
 				<p class="text-center quickLinkText">Subscribe</p>
@@ -25,7 +34,7 @@
 				<p class="text-center quickLinkText">Follow</p>
 			</div>
 			</div>
-			<!-- number of subscribe anfollow -->
+			<!-- number of subscribe and follow -->
 			<div class="row">
 			<div class="col-sm-6">
 				<p class="text-center customNumber1"><a href="@routes.UserProfile.getSubscribe(user.email)">@user.subscribeTo.length</a></p>
@@ -37,11 +46,13 @@
 			<br>
 			<!-- Button to edit profile or apply for house provider -->
 			
-				<div class="col-md-10 col-md-offset-2 profileButton1">
+				<div class="button-wrapper profileButton1">
 					@if((user.isHouseProvider==0)&&(isEditable==1)){
 						<a data-toggle="modal" href="#ApplicationModal" class="btn btn-info">Apply for Houses Provider</a>
 					}else{
+						@if(user.isHouseProvider==1){
 						<a href="@routes.ProviderProfile.profile(user.email)" class="btn btn-info">House Provider Profile</a>
+						}
 					}
 				</div>
 			
@@ -232,7 +243,7 @@
 			@views.html.profile.info(user, isEditable)
 		}
 		@if(mainWindow.equals("edit")){
-			@views.html.profile.edit(user, form)
+			@views.html.profile.edit(user)
 		}
 		@if(mainWindow.equals("follow")){
 			@views.html.profile.follow(user, isEditable)
@@ -246,9 +257,12 @@
 	<br>
 	
 	<script>
+	
+		@if(logUser==user){
 		$('#profilePic').click(function(){
 			$('#uploadModal').modal('show');
 		});
+		}
 		
 		$('#appForm').validate({
 			rules: {

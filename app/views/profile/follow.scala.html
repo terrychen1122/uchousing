@@ -18,13 +18,13 @@
 	<div class="col-md-10 col-md-offset-1">
 		@user.followTo.map { follow =>
            <div class="col-md-3 info">
-           		<p class="text">follow.name</p>
+           		<p class="text">@follow.name</p>
 			</div>
 			<div class="col-md-3 info">
-				<p class="text">follow.email</p>
+				<p class="text">@follow.email</p>
 			</div>
-			<div class="col-md-3 info">
-				<p class="text">follow.phone</p>
+			<div class="col-md-5 info">
+				<p class="text">@follow.phone</p>
 			</div>
         }
         

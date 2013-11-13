@@ -19,8 +19,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import controllers.UserProfile.Profile;
-
 public class ProviderProfile extends Controller{
 	
 	public static Result profile(String email){
@@ -44,6 +42,9 @@ public class ProviderProfile extends Controller{
 			if(houseForm.hasErrors()) {
 				return badRequest(providerprofile.render(profileUser, listing, 1, user, form(House.class)));
 			}else{
+				Map<String, String[]> formData = request().body().asFormUrlEncoded();
+				filterServiceInput(formData, houseForm);
+				filterTransportationInput(formData, houseForm);
 				houseForm.get().owner = profileUser;
 				Date date = new Date();
 				houseForm.get().updatedTime = date;
@@ -105,6 +106,37 @@ public class ProviderProfile extends Controller{
 		}
 		return ok(index.render("", Users.find.byId(session().get("email")), House.recentUpdated(4, 0)));
 	}
-
+	
+	
+	
+	
+	/*
+	 * 
+	 */
+	private static void filterServiceInput(Map<String, String[]> data, Form<House> house){
+		boolean water = (data.get("water")==null)? false: true;
+		boolean gas = (data.get("gas")==null)? false: true;
+		boolean heat = (data.get("heat")==null)? false: true;
+		boolean internet = (data.get("internet")==null)? false: true;
+		boolean fitness = (data.get("fitness")==null)? false: true;
+		boolean laundry = (data.get("laundry")==null)? false: true;
+		boolean parking = (data.get("parking")==null)? false: true;
+		house.get().services = Service.create(water, gas, heat, internet, fitness, laundry, parking);
+	}
+	
+	private static void filterTransportationInput(Map<String, String[]> data, Form<House> house){
+		String tranString = data.get("trans")[0];
+		List<String> transportationArray = Arrays.asList(tranString.split(" "));
+		for(String line : transportationArray){
+			if(!line.equals("")){
+				List<Transportation> arrayT = Transportation.find.where().eq("line", line).findList();
+				if(!arrayT.isEmpty()){
+					house.get().transportations.add(arrayT.get(0));
+				}else{
+					house.get().transportations.add(Transportation.create(line));
+				}
+			}
+		}
+	}
 	
 }
