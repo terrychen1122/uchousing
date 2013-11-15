@@ -16,9 +16,9 @@
 			@if(isEditable==0&&(logUser!=null)){
 				<div class="button-wrapper">
 				@if(logUser.followTo.contains(user)){
-				<a href="@routes.UserProfile.unfollowUser(user.email)"><button class="btn btn-xs btn-primary">Unfollow</button></a>
+				<button class="btn btn-xs btn-primary" id="unfollow-button" >Unfollow</button>
 				}else{
-				<a href="@routes.UserProfile.followUser(user.email)"><button class="btn btn-xs btn-primary">Follow</button></a>
+				<button class="btn btn-xs btn-primary" id="follow-button" >Follow</button>
 				}
 				</div>
 			}
@@ -63,58 +63,26 @@
 		<div class ="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dimiss="modal" aria-hidden="true">&times;</button>
+					<button type="button" class="close" data-dimiss="modal">&times;</button>
 					<h4 class="modal-title">choose your profile image</h4>
 				</div>
 				<div class="modal-body">
-					<a href="@routes.UserProfile.profileImageChange("artist.png",user.email)">
-					<img src="@routes.Assets.at("images/profile_pic/artist.png")" alt="artist" class="img-thumbnail ui-icon" >
-					</a>
-					<a href="@routes.UserProfile.profileImageChange("cleaner.png",user.email)">
-					<img src="@routes.Assets.at("images/profile_pic/cleaner.png")" alt="cleaner" class="img-thumbnail ui-icon">
-					</a>
-					<a href="@routes.UserProfile.profileImageChange("babysitter.png",user.email)">
-					<img src="@routes.Assets.at("images/profile_pic/babysitter.png")" alt="babysitter" class="img-thumbnail ui-icon">
-					</a>
-					<a href="@routes.UserProfile.profileImageChange("postman.png",user.email)">
-					<img src="@routes.Assets.at("images/profile_pic/postman.png")" alt="postman" class="img-thumbnail ui-icon">
-					</a>
-					<a href="@routes.UserProfile.profileImageChange("bartender.png",user.email)">
-					<img src="@routes.Assets.at("images/profile_pic/bartender.png")" alt="bartender" class="img-thumbnail ui-icon">
-					</a>
-					<a href="@routes.UserProfile.profileImageChange("pilot.png",user.email)">
-					<img src="@routes.Assets.at("images/profile_pic/pilot.png")" alt="pilot" class="img-thumbnail ui-icon">
-					</a>
-					<a href="@routes.UserProfile.profileImageChange("painter.png",user.email)">
-					<img src="@routes.Assets.at("images/profile_pic/painter.png")" alt="painter" class="img-thumbnail ui-icon">
-					</a>
-					<a href="@routes.UserProfile.profileImageChange("director.png",user.email)">
-					<img src="@routes.Assets.at("images/profile_pic/director.png")" alt="director" class="img-thumbnail ui-icon">
-					</a>
-					<a href="@routes.UserProfile.profileImageChange("chemist.png",user.email)">
-					<img src="@routes.Assets.at("images/profile_pic/chemist.png")" alt="chemist" class="img-thumbnail ui-icon">
-					</a>
-					<a href="@routes.UserProfile.profileImageChange("designer.png",user.email)">
-					<img src="@routes.Assets.at("images/profile_pic/designer.png")" alt="designer" class="img-thumbnail ui-icon">
-					</a>
-					<a href="@routes.UserProfile.profileImageChange("engineer.png",user.email)">
-					<img src="@routes.Assets.at("images/profile_pic/engineer.png")" alt="engineer" class="img-thumbnail ui-icon">
-					</a>
-					<a href="@routes.UserProfile.profileImageChange("barber.png",user.email)">
-					<img src="@routes.Assets.at("images/profile_pic/barber.png")" alt="barber" class="img-thumbnail ui-icon">
-					</a>
-					<a href="@routes.UserProfile.profileImageChange("doctor.png",user.email)">
-					<img src="@routes.Assets.at("images/profile_pic/doctor.png")" alt="doctor" class="img-thumbnail ui-icon">
-					</a>
-					<a href="@routes.UserProfile.profileImageChange("environmentalist.png",user.email)">
-					<img src="@routes.Assets.at("images/profile_pic/environmentalist.png")" alt="environmentalist" class="img-thumbnail ui-icon">
-					</a>
-					<a href="@routes.UserProfile.profileImageChange("worker.png",user.email)">
-					<img src="@routes.Assets.at("images/profile_pic/worker.png")" alt="worker" class="img-thumbnail ui-icon">
-					</a>
-					<a href="@routes.UserProfile.profileImageChange("mover.png",user.email)">
-					<img src="@routes.Assets.at("images/profile_pic/mover.png")" alt="mover" class="img-thumbnail ui-icon">
-					</a>
+					<img src="@routes.Assets.at("images/profile_pic/artist.png")" alt="artist.png" class="img-thumbnail ui-icon" >
+					<img src="@routes.Assets.at("images/profile_pic/cleaner.png")" alt="cleaner.png" class="img-thumbnail ui-icon">
+					<img src="@routes.Assets.at("images/profile_pic/babysitter.png")" alt="babysitter.png" class="img-thumbnail ui-icon">
+					<img src="@routes.Assets.at("images/profile_pic/postman.png")" alt="postman.png" class="img-thumbnail ui-icon">
+					<img src="@routes.Assets.at("images/profile_pic/bartender.png")" alt="bartender.png" class="img-thumbnail ui-icon">
+					<img src="@routes.Assets.at("images/profile_pic/pilot.png")" alt="pilot.png" class="img-thumbnail ui-icon">
+					<img src="@routes.Assets.at("images/profile_pic/painter.png")" alt="painter.png" class="img-thumbnail ui-icon">
+					<img src="@routes.Assets.at("images/profile_pic/director.png")" alt="director.png" class="img-thumbnail ui-icon">
+					<img src="@routes.Assets.at("images/profile_pic/chemist.png")" alt="chemist.png" class="img-thumbnail ui-icon">
+					<img src="@routes.Assets.at("images/profile_pic/designer.png")" alt="designer.png" class="img-thumbnail ui-icon">
+					<img src="@routes.Assets.at("images/profile_pic/engineer.png")" alt="engineer.png" class="img-thumbnail ui-icon">
+					<img src="@routes.Assets.at("images/profile_pic/barber.png")" alt="barber.png" class="img-thumbnail ui-icon">
+					<img src="@routes.Assets.at("images/profile_pic/doctor.png")" alt="doctor.png" class="img-thumbnail ui-icon">
+					<img src="@routes.Assets.at("images/profile_pic/environmentalist.png")" alt="environmentalist.png" class="img-thumbnail ui-icon">
+					<img src="@routes.Assets.at("images/profile_pic/worker.png")" alt="worker.png" class="img-thumbnail ui-icon">
+					<img src="@routes.Assets.at("images/profile_pic/mover.png")" alt="mover.png" class="img-thumbnail ui-icon">
 				</div>
 				<div class="modal-footer form-group action">
           			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -133,10 +101,10 @@
         		</div>
         		<div class="modal-body">
           			@helper.form(routes.UserProfile.processApplication(user.email), 'id -> "appForm", 'class -> "form-horizontal", 'role -> "form") {
-						@if(form.hasGlobalErrors) { 
+						@if(providerForm.hasGlobalErrors) { 
                 			<div class="form-group error">
                					<div class="col-md-4 col-md-offset-4">
-                   					<p class="text-center text-danger">@form.globalError.message</p>
+                   					<p class="text-center text-danger">@providerForm.globalError.message</p>
                					</div>
                				</div>
         				}
@@ -144,7 +112,7 @@
         				<br>
         				<div class="form-group">
             				@helper.inputText(
-            					form("fname"),
+            					providerForm("fname"),
            						'class -> "form-control",
            						'id -> "fname",
            						'_label -> "First Name",
@@ -152,7 +120,7 @@
            					)
            					
            					@helper.inputText(
-            					form("lname"),
+            					providerForm("lname"),
            						'class -> "form-control",
            						'id -> "lname",
            						'_label -> "Last Name",
@@ -160,7 +128,7 @@
            					)
            					
            					@helper.inputText(
-            					form("occupation"),
+            					providerForm("occupation"),
            						'class -> "form-control",
            						'id -> "occupation",
            						'_label -> "Occupation",
@@ -168,7 +136,7 @@
            					)
            					
            					@helper.select(
-            					form("providerType"),
+            					providerForm("providerType"),
             					helper.options("individual"->"Individual", "agency"->"Agency", "corporate"->"Corporate"),
             					'id -> "type",
             					'_label -> "Type", 
@@ -178,7 +146,7 @@
             				)
            					
            					@helper.inputText(
-            					form("addressLine1"),
+            					providerForm("addressLine1"),
            						'class -> "form-control",
            						'id -> "address",
            						'_label -> "Address 1",
@@ -186,7 +154,7 @@
            					)
            					
            					@helper.inputText(
-            					form("addressLine2"),
+            					providerForm("addressLine2"),
            						'class -> "form-control",
            						'_label -> "Address 2",
            						'id -> "address2",
@@ -194,14 +162,14 @@
            					)
            					
            					@helper.inputText(
-            					form("city"),
+            					providerForm("city"),
            						'class -> "form-control",
            						'id -> "city",
            						'_label -> "City"
            					)
            					
            					@helper.select(
-            					form("states"),
+            					providerForm("states"),
             					helper.options(State.options),
             					'id -> "state",
             					'_label -> "State", 
@@ -211,14 +179,14 @@
             				)
             				
             				@helper.inputText(
-            					form("zipCode"),
+            					providerForm("zipCode"),
            						'class -> "form-control",
            						'id -> "zip",
            						'_label -> "zip"
            					)
            					
            					@helper.textarea(
-           						form("description"),
+           						providerForm("description"),
            						'class -> "form-control",
            						'rows -> "3",
            						'_label -> "Description (Max. 200 characters)",
@@ -278,6 +246,30 @@
 					number: true
 				}
 			}
+		});
+		
+		$('.ui-icon').click(function(){
+			var profilePic = $(this).attr("alt");
+			var jpic = { pic : profilePic };
+			$.post('@routes.UserProfile.profileImageChange(user.email)', jpic ).done(function(){
+				location.reload();
+			});
+		});
+		
+		$('#follow-button').click(function(){
+			var e = '@user.email';
+			var jdata = { email: e};
+			$.post('@routes.UserProfile.followUser()', jdata).done(function(){
+				location.reload();
+			});
+		});
+		
+		$('#unfollow-button').click(function(){
+			var e = '@user.email';
+			var jdata = {email: e};
+			$.post('@routes.UserProfile.unfollowUser()', jdata).done(function(){
+				location.reload();
+			});
 		});
 		
 	</script>

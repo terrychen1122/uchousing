@@ -196,7 +196,7 @@
        					<div class="col-md-offset-4">
           					<button type="button" id="cancel-button" class="btn btn-default">Cancel</button>
           					<button type="submit" class="btn btn-primary">Submit</button>
-          					<a class="btn btn-danger" role="button" href="@routes.ProviderProfile.deleteHouse(house.id)">Delete</a>
+          					<button type="button" class="btn btn-danger" id="delete-button" name="@house.id">Delete</button>
           				</div>
         			</div>
 				</form>
@@ -228,7 +228,7 @@
 				zipCode: {
 					required: true,
 					number: true
-				}
+				},
 				area: "required",
 				neighbor: "required",
 				trans: "required"
@@ -237,6 +237,15 @@
 		
 		$("#cancel-button").click(function(){
 			window.history.back();
+		});
+		
+		$('#delete-button').click(function(){
+			var i = '@house.id';
+			var jdata = { houseID : i };
+			$.post('@routes.ProviderProfile.deleteHouse()', jdata).done(function(){
+				
+				window.history.back();
+			});
 		});
 	</script>
 }

@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.*;
 
 import org.apache.commons.io.FileUtils;
+import org.codehaus.jackson.JsonNode;
 
 
 
@@ -72,7 +73,8 @@ public class UserProfile extends Controller{
 				return profile(session().get("email"));
 			
 		}
-		return ok(index.render("", Users.find.byId(session().get("email")), House.recentUpdated(4, 0)));  
+		Users logUser = (session().isEmpty())? null: Users.find.byId(session().get("email"));
+		return ok(index.render("", logUser, House.recentUpdated(4, 0)));  
 	}
 	
 	public static Result processApplication(String email){
@@ -88,32 +90,43 @@ public class UserProfile extends Controller{
 				return profile(session().get("email"));
 			}
 		}
-		return ok(index.render("", Users.find.byId(session().get("email")), House.recentUpdated(4, 0)));
+		Users logUser = (session().isEmpty())? null: Users.find.byId(session().get("email"));
+		return ok(index.render("", logUser, House.recentUpdated(4, 0)));
 	}
 	
-	public static Result profileImageChange(String url, String email){
+	public static Result profileImageChange(String email){
 		if(!session().isEmpty()&&session().get("email").equals(email)){
+			Map<String, String[]> queryParams = request().body().asFormUrlEncoded();
+			System.out.println("params:" + queryParams);
+			String url = queryParams.get("pic")[0];
 			Users.setProfileImge(email, url);
-			return profile(email);
+			return ok();
 		}
-		return ok(index.render("", Users.find.byId(session().get("email")), House.recentUpdated(4, 0)));
+		Users logUser = (session().isEmpty())? null: Users.find.byId(session().get("email"));
+		return ok(index.render("", logUser, House.recentUpdated(4, 0)));
 	}
 	
-	public static Result followUser(String email){
+	public static Result followUser(){
+		Map<String, String[]> queryParams = request().body().asFormUrlEncoded();
+		String email = queryParams.get("email")[0];
 		if(!session().isEmpty()&&!session().get("email").equals(email)){
 			Users.followToUser(session().get("email"), email);
 		}
-		return profile(email);
+		return ok();
 	}
 	
-	public static Result unfollowUser(String email){
+	public static Result unfollowUser(){
+		Map<String, String[]> queryParams = request().body().asFormUrlEncoded();
+		String email = queryParams.get("email")[0];
 		if(!session().isEmpty()&&!session().get("email").equals(email)){
 			Users.unfollowToUser(session().get("email"), email);
 		}
 		return profile(email);
 	}
 	
-	public static Result subscribeHouse(Long id){
+	public static Result subscribeHouse(){
+		Map<String, String[]> queryParams = request().body().asFormUrlEncoded();
+		Long id = Long.parseLong(queryParams.get("houseID")[0], 10);
 		if(!session().isEmpty()){
 			Users.subscribeToHouse(session().get("email"), id);
 		}

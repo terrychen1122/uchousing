@@ -26,10 +26,12 @@ public class Houses extends Controller{
 		}
 		List<HPicture> images = HPicture.getImages(id);
 		int edit = 0;
-		if(session().get("email").equals(house.owner.email)){
+		Users logUser = null;
+		if(session().get("email")!=null&&session().get("email").equals(house.owner.email)){
 			edit = 1;
+			logUser = Users.find.byId(session().get("email"));
 		}
-		return ok(hprofile.render(house, images, edit, Users.find.byId(session().get("email"))));
+		return ok(hprofile.render(house, images, edit, logUser));
 	}
 	
 }

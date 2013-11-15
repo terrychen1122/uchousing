@@ -80,11 +80,13 @@ public class ProviderProfile extends Controller{
 		return ok(houseSetting.render(house, user));
 	}
 	
-	public static Result deleteHouse(Long id){
+	public static Result deleteHouse(){
+		Map<String, String[]> queryParams = request().body().asFormUrlEncoded();
+		Long id = Long.parseLong(queryParams.get("houseID")[0], 10);
 		House house = null;
-		house = house.find.byId(id);
+		house = House.find.byId(id);
 		if(house == null || session().isEmpty() || !session().get("email").equals(house.owner.email)){
-			return ok(index.render("", Users.find.byId(session().get("email")), House.recentUpdated(4, 0)));
+			return ok();
 		}
 		house.delete();
 		

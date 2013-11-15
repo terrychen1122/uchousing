@@ -18,7 +18,7 @@
 	<div class="col-md-10 col-md-offset-1">
 		@user.followTo.map { follow =>
            <div class="col-md-3 info">
-           		<p class="text">@follow.name</p>
+           		<a href="@routes.UserProfile.profile(follow.email)"><p class="text">@follow.name</p></a>
 			</div>
 			<div class="col-md-3 info">
 				<p class="text">@follow.email</p>

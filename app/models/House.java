@@ -51,7 +51,7 @@ public class House extends Model{
 	@Constraints.Required
 	public String leasingType;
 	
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.ALL)
 	public List<Transportation> transportations = new ArrayList<Transportation>();
 	
 	public String neighbor;
@@ -69,7 +69,7 @@ public class House extends Model{
 	
 	public String area;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	public Service services;
 	
 	/*
