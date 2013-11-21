@@ -1,8 +1,8 @@
-@(provider: HouseProvider, listing: List[House],isEditable: Integer, logUser: Users, form: Form[House])
+@(provider: HouseProvider, listing: List[House],isEditable: Integer, form: Form[House])
 
 @implicitFieldConstructor = @{ helper.FieldConstructor(twitterBootstrapHouseForm.render) }
 
-@main("Provider Profile", logUser, 3) {
+@main("Provider Profile", 3) {
 	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/pprofile.css")">
 	<script language="javascript" type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script>
 	

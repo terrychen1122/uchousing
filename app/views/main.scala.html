@@ -1,4 +1,4 @@
-@(title: String, user: Users, activeIndex: Integer)(content: Html)
+@(title: String, activeIndex: Integer)(content: Html)
 
 <!DOCTYPE html>
 
@@ -61,16 +61,16 @@
 					
 					
 					<ul class="nav navbar-nav navbar-right">
-						@if(user == null) {
+						@if(session().get("email") == null) {
 							<li><a href="@routes.Application.register()">Register</a></li>
 							<li><a href="@routes.Application.login()">Login</a></li>
 						} else {
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">@user.email<b class="caret"></b></a>
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">@session().get("email")<b class="caret"></b></a>
 								<ul class="dropdown-menu pull-right">
-									<li><a href="@routes.UserProfile.profile(user.email)">Profile</a></li>
-									@if(user.isHouseProvider==1){
-										<li><a href="@routes.ProviderProfile.profile(user.email)">My Lists</a></li>
+									<li><a href="@routes.UserProfile.profile(session().get("email"))">Profile</a></li>
+									@if(Users.find.byId(session().get("email")).isHouseProvider==1){
+										<li><a href="@routes.ProviderProfile.profile(session().get("email"))">My Lists</a></li>
 									} else {
 										<li class="disabled"><a href="#">My Lists</a></li>
 									}

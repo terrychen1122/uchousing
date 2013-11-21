@@ -1,6 +1,6 @@
-@(house: House, images: List[HPicture], isEditable: Integer, logUser: Users)
+@(house: House, images: List[HPicture], isEditable: Integer)
 
-@main("House profile", logUser, 3){
+@main("House profile", 3){
 <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/hprofile.css")">
 
 <div class="container ui-body">
@@ -135,7 +135,7 @@
   			
   			</div>
   			<div class="tab-pane" id="comment">
-  			@if(logUser!=null){
+  			@if(session().get("email")!=null){
   				<div class="ui-comment-input">
   					<form class="form-horizontal " role="form">
   						<div class="form-group">

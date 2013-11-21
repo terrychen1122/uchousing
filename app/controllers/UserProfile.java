@@ -32,7 +32,7 @@ public class UserProfile extends Controller{
 		if(!session().isEmpty()&&session().get("email").equals(email)){
 			return profile(email, "edit");
 		}
-		return ok(index.render("", Users.find.byId(request().username()), House.recentUpdated(4, 0))); 
+		return redirect(routes.Application.index());
 	}
 	
 	public static Result getSubscribe(String email){
@@ -44,18 +44,16 @@ public class UserProfile extends Controller{
 	}
 	
 	public static Result profile(String email, String mainWindow) {
-		Users logUser = null;
 		int isEditable = 0;
 		if(!session().isEmpty()){
-    		logUser = Users.find.byId(session().get("email"));
     		isEditable = (email.equals(session().get("email"))) ? 1 : 0;
     	}
 		Users profileUser = Users.find.byId(email);
 		if(profileUser != null) {
-			return ok(profileFrame.render(profileUser, logUser, isEditable, mainWindow, form(HouseProvider.class)));
+			return ok(profileFrame.render(profileUser, isEditable, mainWindow, form(HouseProvider.class)));
 		} else {
 			//TEMP
-			return ok(index.render("", Users.find.byId(session().get("email")), House.recentUpdated(4, 0)));
+			return redirect(routes.Application.index());
 		}
 	}
 	
@@ -73,8 +71,7 @@ public class UserProfile extends Controller{
 				return profile(session().get("email"));
 			
 		}
-		Users logUser = (session().isEmpty())? null: Users.find.byId(session().get("email"));
-		return ok(index.render("", logUser, House.recentUpdated(4, 0)));  
+		return redirect(routes.Application.index()); 
 	}
 	
 	public static Result processApplication(String email){
@@ -82,7 +79,7 @@ public class UserProfile extends Controller{
 			Form<HouseProvider> providerForm = form(HouseProvider.class).bindFromRequest();
 			if(providerForm.hasErrors()) {
 				Users user = Users.find.byId(email);
-				return badRequest(profileFrame.render(user, user, 1, "info",providerForm));
+				return badRequest(profileFrame.render(user, 1, "info",providerForm));
 			}else{
 				providerForm.get().email = email;
 				providerForm.get().save();
@@ -90,20 +87,17 @@ public class UserProfile extends Controller{
 				return profile(session().get("email"));
 			}
 		}
-		Users logUser = (session().isEmpty())? null: Users.find.byId(session().get("email"));
-		return ok(index.render("", logUser, House.recentUpdated(4, 0)));
+		return redirect(routes.Application.index());
 	}
 	
 	public static Result profileImageChange(String email){
 		if(!session().isEmpty()&&session().get("email").equals(email)){
 			Map<String, String[]> queryParams = request().body().asFormUrlEncoded();
-			System.out.println("params:" + queryParams);
 			String url = queryParams.get("pic")[0];
 			Users.setProfileImge(email, url);
 			return ok();
 		}
-		Users logUser = (session().isEmpty())? null: Users.find.byId(session().get("email"));
-		return ok(index.render("", logUser, House.recentUpdated(4, 0)));
+		return redirect(routes.Application.index());
 	}
 	
 	public static Result followUser(){

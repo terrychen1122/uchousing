@@ -1,8 +1,8 @@
-@(user: Users, logUser: Users, isEditable: Integer, mainWindow: String, providerForm: Form[HouseProvider])
+@(user: Users, isEditable: Integer, mainWindow: String, providerForm: Form[HouseProvider])
 
 @implicitFieldConstructor = @{ helper.FieldConstructor(twitterBootstrapApplicationInput.render) }
 
-@main("Profile", logUser, 3) {
+@main("Profile", 3) {
 	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/profileFrame.css")">
 	<script language="javascript" type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script>
 	<div class="container">
@@ -13,9 +13,9 @@
 				<img id="profilePic" src="@routes.Assets.at("images/profile_pic/" + user.profileImage)" alt="profileImage" class="img-thumbnail" data-toggle="tooltip" title="Click to change profile picture">
 			</div>
 			<p class ="username"><a href="@routes.UserProfile.profile(user.email)">@user.name</a></p>
-			@if(isEditable==0&&(logUser!=null)){
+			@if(isEditable==0&&(session().get("email")!=null)){
 				<div class="button-wrapper">
-				@if(logUser.followTo.contains(user)){
+				@if(Users.find.byId(session().get("email")).followTo.contains(user)){
 				<button class="btn btn-xs btn-primary" id="unfollow-button" >Unfollow</button>
 				}else{
 				<button class="btn btn-xs btn-primary" id="follow-button" >Follow</button>
@@ -226,7 +226,7 @@
 	
 	<script>
 	
-		@if(logUser==user){
+		@if(session().get("email")==user.email){
 		$('#profilePic').click(function(){
 			$('#uploadModal').modal('show');
 		});

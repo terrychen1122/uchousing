@@ -1,6 +1,5 @@
 package controllers;
 
-
 import play.*;
 import play.mvc.*;
 import play.data.*;
@@ -13,8 +12,6 @@ import static play.data.Form.*;
 
 import java.io.File;
 import java.util.*;
-
-
 
 public class Application extends Controller {
   
@@ -34,21 +31,15 @@ public class Application extends Controller {
         }
     }
 	
-	public static Result index() {    	
-    	if(session().isEmpty()){
-    		return ok(index.render("Homepage", null, House.recentUpdated(4, 0)));
-    	} else {
-    		//TEMP
-    		return ok(index.render("Your new application is ready.", Users.find.byId(session().get("email")), House.recentUpdated(4, 0)));
-    	}
+	public static Result index() {
+    		return ok(index.render("Homepage", House.recentUpdated(4, 0)));
     }
 	
 	public static Result register() {
 		if(session().isEmpty()){
 			return ok(register.render(form(Users.class)));
 		} else {
-			//TEMP
-			return ok(index.render("", Users.find.byId(session().get("email")), House.recentUpdated(4, 0)));
+			return index();
 		}
 	}
 	
@@ -67,7 +58,7 @@ public class Application extends Controller {
 				e.printStackTrace();
 			}
 			session("email", registerForm.get().email);
-			return ok(index.render("", Users.find.byId(session().get("email")), House.recentUpdated(4, 0)));
+			return redirect(routes.UserProfile.profile(session().get("email")));
 		}
 	}
 	
@@ -76,7 +67,7 @@ public class Application extends Controller {
 			return ok(login.render(form(Login.class)));
 		} else {
 			//TEMP
-			return ok(index.render("", Users.find.byId(session().get("email")), House.recentUpdated(4, 0)));
+			return index();
 		}
     }
     
@@ -87,7 +78,7 @@ public class Application extends Controller {
         } else {
             session("email", loginForm.get().email);
             return redirect(
-                routes.Application.index()
+                routes.UserProfile.profile(session().get("email"))
             );
         }
     }

@@ -1,7 +1,7 @@
-@(house: House, logUser: Users)
+@(house: House)
 
 
-@main("House Setting", logUser, 3) {
+@main("House Setting", 3) {
 	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/pprofile.css")">
 	<script language="javascript" type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script>
 	
@@ -243,7 +243,6 @@
 			var i = '@house.id';
 			var jdata = { houseID : i };
 			$.post('@routes.ProviderProfile.deleteHouse()', jdata).done(function(){
-				
 				window.history.back();
 			});
 		});
