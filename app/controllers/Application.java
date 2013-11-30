@@ -90,5 +90,9 @@ public class Application extends Controller {
             routes.Application.index()
         );
     }    
+	
+	public static Result contact() {
+		return ok(contact.render());
+	}
     
 }

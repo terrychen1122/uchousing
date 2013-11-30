@@ -99,6 +99,15 @@ public class Users extends Model {
     	user.saveManyToManyAssociations("subscribeTo");
     }
     
+    public static void unsubscribeToHouse(String email, Long id){
+    	Users user = find.ref(email);
+    	int index = user.subscribeTo.indexOf(House.find.ref(id));
+    	if(index>=0){
+    		user.subscribeTo.remove(index);
+    		user.saveManyToManyAssociations("subscribeTo");
+    	}
+    }
+    
     public static void followToUser(String email, String followingEmail){
     	Users user = find.ref(email);
     	user.followTo.add(Users.find.ref(followingEmail));

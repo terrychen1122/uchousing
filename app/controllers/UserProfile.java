@@ -122,8 +122,18 @@ public class UserProfile extends Controller{
 		Map<String, String[]> queryParams = request().body().asFormUrlEncoded();
 		Long id = Long.parseLong(queryParams.get("houseID")[0], 10);
 		if(!session().isEmpty()){
+			System.out.println("id:"+id);
 			Users.subscribeToHouse(session().get("email"), id);
 		}
 		return ok();
+	}
+	
+	public static Result unsubscribeHouse(){
+		Map<String, String[]> queryParams = request().body().asFormUrlEncoded();
+		Long id = Long.parseLong(queryParams.get("houseID")[0], 10);
+		if(!session().isEmpty()){
+			Users.unsubscribeToHouse(session().get("email"), id);
+		}
+		return redirect(routes.Houses.profile(id));
 	}
 }

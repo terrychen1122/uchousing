@@ -10,6 +10,7 @@ import play.data.format.*;
 import play.data.validation.*;
 
 import com.avaje.ebean.*;
+import com.avaje.ebean.Expr;
 
 @Entity
 public class House extends Model{
@@ -58,7 +59,9 @@ public class House extends Model{
 	
 	public String requirements;
 	
-	public int rate;
+	public double rate;
+	
+	public int totoalRates;
 	
 	@Constraints.Required
 	@Constraints.Min(0)
@@ -85,6 +88,87 @@ public class House extends Model{
 				getPage(page).
 				getList();
 		
+	}
+	
+	public static Page<House> fetch(int page, int pageSize, String sortBy, String filter, String size, String price, String htype, String ltype, int rate){
+		String order;
+		if(sortBy.equals("updatedTime")||sortBy.equals("priceHtoL")||sortBy.equals("sizeLtoS")||sortBy.equals("rate")){
+			order = "desc";
+		}else{
+			order = "asc";
+		}
+		if(sortBy.equals("priceHtoL")||sortBy.equals("priceLtoH")){
+			sortBy = "price";
+		}else if(sortBy.equals("sizeStoL")||sortBy.equals("sizeLtoS")){
+			sortBy = "size";
+		}
+		
+		int size_lower = 0;
+		int size_upper = 300;
+		if(size.equals("300to600")){
+			size_lower = 300;
+			size_upper = 600;
+		}else if(size.equals("600to1000")){
+			size_lower = 600;
+			size_upper = 1000;
+		}else if(size.equals("gt1000")){
+			size_lower = 1000;
+			size_upper = 9999;
+		}else if(size.equals("")){
+			size_upper = 9999;
+		}
+		int price_lower = -1;
+		int price_upper = 500;
+		if(price.equals("500to1000")){
+			price_lower = 500;
+			price_upper = 1000;
+		}else if(price.equals("1000to1500")){
+			price_lower = 1000;
+			price_upper = 1500;
+		}else if(price.equals("gt1500")){
+			price_lower = 1500;
+			price_upper = 9999;
+		}else if(price.equals("")){
+			price_upper = 9999;
+		}
+		
+		Page<House> results = find.where()
+					.disjunction()
+					.ilike("name", "%" + filter + "%")
+					.ilike("owner.email", "%" + filter + "%")
+					.ilike("addressLine1", "%" + filter + "%")
+					.ilike("addressLine2", "%" + filter + "%")
+					.ilike("description", "%" + filter + "%").endJunction()
+					.conjunction().ilike("houseType", "%"+htype_filter(htype)+"%")
+					.ilike("leasingType", "%"+ltype_filter(ltype)+"%")
+					.between("price", price_lower, price_upper).
+					between("size", size_lower, size_upper).
+					ge("rate", rate)
+					.endJunction()
+					.orderBy(sortBy + " " + order).
+					findPagingList(pageSize)
+					.getPage(page);
+		return results;
+	}
+	
+	public static String htype_filter(String htype){
+		if(htype.equals("one-bedroom")){
+			return "one bedroom";
+		}else if(htype.equals("two-bedroom")){
+			return "two bedroom";
+		}else if(htype.equals("three-bedroom")){
+			return "three bedroom";
+		}else {
+			return htype;
+		}
+	}
+	
+	public static String ltype_filter(String ltype){
+		if(ltype.equals("one-year")){
+			return "one year";
+		}else{
+			return ltype;
+		}
 	}
 	
 	public static List<House> findListing(String email){
@@ -156,5 +240,6 @@ public class House extends Model{
 		service.save();
 		this.services = service;
 	}
+	
 	
 }

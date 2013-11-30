@@ -18,6 +18,7 @@
     margin-bottom: 0;
     line-height: 50px;
     padding-bottom: 20px;
+    display: inline;
 }
 
 .carousel-img img{
@@ -75,5 +76,12 @@
 
 .ui-comment-input .form-group button {
     float: right;
+}
+
+#googleMap {
+    margin: 0;
+    padding: 0;
+    height: 500px;
+    border: 1px solid #ccc;
 }
 

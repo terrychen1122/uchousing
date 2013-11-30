@@ -16,17 +16,23 @@
 	</div>
 	
 	<div class="col-md-10 col-md-offset-1">
+		<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Phone</th>
+			</tr>
+		<thead>
+		<tbody>
 		@user.followTo.map { follow =>
-           <div class="col-md-3 info">
-           		<a href="@routes.UserProfile.profile(follow.email)"><p class="text">@follow.name</p></a>
-			</div>
-			<div class="col-md-3 info">
-				<p class="text">@follow.email</p>
-			</div>
-			<div class="col-md-5 info">
-				<p class="text">@follow.phone</p>
-			</div>
+			<tr>
+           	<td><a href="@routes.UserProfile.profile(follow.email)">@follow.name</a></td>
+			<td>@follow.email</td>
+			<td>@follow.phone</td>
+			</tr>
         }
-        
+        </tbody>
+        </table>
 	</div>
 	

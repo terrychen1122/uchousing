@@ -61,8 +61,6 @@ public class ProviderProfile extends Controller{
 		Map<String, String[]> formData = request().body().asFormUrlEncoded();
 		house.updateWithForm(formData);
 		
-		List<House> listing = House.findListing(session().get("email"));
-		HouseProvider profileUser = HouseProvider.find.byId(session().get("email"));
 		return profile(session().get("email"));
 	}
 	
@@ -84,9 +82,6 @@ public class ProviderProfile extends Controller{
 			return ok();
 		}
 		house.delete();
-		
-		HouseProvider profileUser = HouseProvider.find.byId(session().get("email"));
-		List<House> listing = House.findListing(session().get("email"));
 		return profile(session().get("email"));
 	}
 	
@@ -101,9 +96,7 @@ public class ProviderProfile extends Controller{
 		return redirect(routes.Application.index());
 	}
 	
-	
-	
-	
+
 	/*
 	 * 
 	 */

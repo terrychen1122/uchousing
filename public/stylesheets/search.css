@@ -1,0 +1,83 @@
+.ui-main {
+    max-width: 850px;
+    margin-top: 80px;
+}
+
+.dropdown-menu {
+    min-width: 50px;
+}
+
+.ui-tag {
+    margin-top: 20px;
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.selected-tag {
+    background-color: #aec4db;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.selected-tag:hover{
+    text-decoration: none;
+}
+
+.ui-sort-option {
+    margin-top: 20px;
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ui-sort-option > p {
+    display: inline;
+}
+
+.ui-sort-selector {
+    float: right;
+}
+
+.ui-sort-selector > p {
+    display: inline;
+}
+
+.ui-data-section {
+    margin-top: 10px;
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ui-data {
+    border: 1px solid #D8D8D8;
+    margin-top: 20px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.ui-data-img {
+    float: left;
+}
+
+.ui-data-img > img {
+    height: 200px;
+    width: auto;
+    margin: 10px;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.ui-data-detail {
+    margin-top: 30px;
+}
+
+.ui-data-detail .data-entry {
+    font-size: 14px;
+    font-weight: 200;
+}
+
+.ui-data-navigator {
+    float: right;
+}

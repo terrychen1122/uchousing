@@ -10,6 +10,8 @@ GET     /login                              controllers.Application.login()
 POST    /login                              controllers.Application.authenticate()
 GET     /logout                             controllers.Application.logout()
 
+GET		/contact							controllers.Application.contact()
+
 GET		/register							controllers.Application.register()
 POST	/register							controllers.Application.processRegistration()
 
@@ -22,6 +24,7 @@ POST	/profile/:id/edit					controllers.UserProfile.processEdit(id:String)
 GET		/profile/:id/subscribe				controllers.UserProfile.getSubscribe(id:String)
 GET		/profile/:id/follow					controllers.UserProfile.getFollow(id:String)
 POST	/profile/subscribe/					controllers.UserProfile.subscribeHouse()
+POST	/profile/unsubscribe/				controllers.UserProfile.unsubscribeHouse()
 POST	/profile/follow/					controllers.UserProfile.followUser()
 POST	/profile/unfollow/					controllers.UserProfile.unfollowUser()
 
@@ -35,6 +38,12 @@ POST	/pprofile/house/:id					controllers.ProviderProfile.addHouse(id:String)
 POST	/pprofile/house/:id					controllers.ProviderProfile.editHouse(id:Long)
 
 GET		/house/:id							controllers.Houses.profile(id:Long)
+GET		/house/rate/:id/:r					controllers.Houses.rate(id:Long, r:Int)
+POST	/house/:id							controllers.Houses.commentPost(id:Long)
+GET		/comment/delete/:id					controllers.Houses.commentDelete(id:Long)
+
+GET		/searchPage							controllers.SearchEngine.searchPage()
+GET		/search								controllers.SearchEngine.fetchSearch(p:Int ?= 0, s ?= "updatedTime", f ?= "", size ?= "", price ?= "", t ?= "", lt ?= "", r:Int ?= 0)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

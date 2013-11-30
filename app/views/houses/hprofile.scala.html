@@ -2,10 +2,18 @@
 
 @main("House profile", 3){
 <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/hprofile.css")">
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyARHg16GGE4D__QlGdiazxRTXuUxhS6Ros&sensor=false"></script>
 
 <div class="container ui-body">
 	<div class="header">
-		<h2 class="text-muted">@house.name</h3>
+		<h2 class="text-muted">@house.name</h2>
+		@if(session().get("email")!=null&&session().get("email")!=house.owner.email){
+			@if(Users.find.byId(session().get("email")).subscribeTo.contains(house)){
+			<a href="javascript:void(0)" id="unsubscribe-button" class="btn">Unsubscribe</a>
+			}else{
+			<a href="javascript:void(0)" id="subscribe-button" class="btn">Subscribe</a>
+			}
+		}
 	</div>
 	<div id="housing-carousel" class="carousel slide">
 		<ol class="carousel-indicators">
@@ -59,7 +67,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-3"><p>Rate: </p></div>
-				<div class="col-md-3"><p>@house.rate out of 5</p></div>
+				<div class="col-md-3"><p>@BigDecimal(house.rate).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble/5</p></div>
 				<div class="btn-group">
 					<button type="button" class="btn btn-xs btn-info" disabled><span class="glyphicon glyphicon-star"></span></button>
 					<button type="button" class="btn btn-xs btn-info" data-toggle="dropdown">
@@ -67,11 +75,11 @@
     					<span class="sr-only">Toggle Dropdown</span>
   					</button>
   					<ul class="dropdown-menu" role="menu">
-    					<li><a href="#">1</a></li>
-    					<li><a href="#">2</a></li>
-   						<li><a href="#">3</a></li>
-    					<li><a href="#">4</a></li>
-    					<li><a href="#">5</a></li>
+    					<li><a href="@routes.Houses.rate(house.id, 1)">1</a></li>
+    					<li><a href="@routes.Houses.rate(house.id, 2)">2</a></li>
+   						<li><a href="@routes.Houses.rate(house.id, 3)">3</a></li>
+    					<li><a href="@routes.Houses.rate(house.id, 4)">4</a></li>
+    					<li><a href="@routes.Houses.rate(house.id, 5)">5</a></li>
   					</ul>
 				</div>
 			</div>
@@ -82,10 +90,10 @@
 		</div>
 	</div>
 	<div class="inner-tool-bar">
-		<ul class="nav nav-tabs">
+		<ul class="nav nav-tabs" id="myTab">
   			<li><a href="#description" data-toggle="tab">Description</a></li>
   			<li><a href="#address" data-toggle="tab">Address</a></li>
-  			<li><a href="#map" data-toggle="tab">Map</a></li>
+  			<li><a id="map-tab" href="#map" data-toggle="tab">Map</a></li>
   			<li><a href="#comment" data-toggle="tab">Comments</a></li>
 		</ul>
 		<div class="tab-content">
@@ -132,14 +140,14 @@
 				</blockquote>
   			</div>
   			<div class="tab-pane" id="map">
-  			
+  				<div id="googleMap"></div>
   			</div>
   			<div class="tab-pane" id="comment">
   			@if(session().get("email")!=null){
   				<div class="ui-comment-input">
-  					<form class="form-horizontal " role="form">
+  					<form class="form-horizontal " role="form" method="POST" action="@routes.Houses.commentPost(house.id)">
   						<div class="form-group">
-  							<textarea class="form-control" rows="3" placeholder="Leaving your comment here ..."></textarea>
+  							<textarea name="comment" class="form-control" rows="3" placeholder="Leaving your comment here ..."></textarea>
   						</div>
   						<div class="form-group">
   							<button type="submit" class="btn btn-default">Submit</button>
@@ -148,23 +156,72 @@
   				</div>
   			}
   				<hr>
-  				<div class="ui-comment-board">
+  				@for(comment <- Comment.getCommentsByHouse(house.id)){
+  					<div class="ui-comment-board">
   					<blockquote>
-  						<p>Comment goes here</p>
-  						<small>user name</small>
+  						<p>@comment.content 
+  							@if(comment.user.email==session().get("email")){<a href="@routes.Houses.commentDelete(comment.id)" class="btn btn-xs close">&times;</a>}
+  						</p>
+  						<small><a href="@routes.UserProfile.profile(comment.user.email)">@comment.user.name</a> at <i>@comment.createTime</i></small>
   					</blockquote>
-  				</div>
-  				<div class="ui-comment-board">
-  					<blockquote>
-  						<p>Comment goes here</p>
-  						<small>user name</small>
-  					</blockquote>
-  				</div>
-  				
+  					</div>
+  				}
   			</div>
 		</div>
 		
 		<br><br><br><br>
 	</div>
 </div>
+
+<script>
+$('#subscribe-button').click(function(){
+	var e = '@house.id';
+	var jdata = { houseID: e};
+	$.post('@routes.UserProfile.subscribeHouse()', jdata).done(function(){
+		location.reload();
+	});
+});
+
+$('#unsubscribe-button').click(function(){
+	var e = '@house.id';
+	var jdata = {houseID: e};
+	$.post('@routes.UserProfile.unsubscribeHouse()', jdata).done(function(){
+		location.reload();
+	});
+});
+
+var map;
+var geocoder;
+var address = "@house.addressLine1, @house.addressLine2, @house.city, @house.state, @house.zipCode";
+function initialize(){
+	geocoder = new google.maps.Geocoder();
+	var mapProp = {
+		center: new google.maps.LatLng(-34.397, 150.644),
+  		zoom:13,
+  	    navigationControl: true,
+  	    mapTypeId: google.maps.MapTypeId.ROADMAP
+  	};
+	map=new google.maps.Map(document.getElementById("googleMap"), mapProp);
+	if(geocoder){
+		geocoder.geocode({'address':address}, function(results, status){
+			if(status == google.maps.GeocoderStatus.OK){
+				if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+					map.setCenter(results[0].geometry.location);
+					var marker = new google.maps.Marker({
+		                position: results[0].geometry.location,
+		                map: map, 
+		                title:address
+		            }); 
+				}
+			}
+		});
+	}
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+
+$('#map-tab').on('shown', function(e){
+	google.maps.event.trigger(map, 'resize');
+	initialize();
+});
+</script>
 }

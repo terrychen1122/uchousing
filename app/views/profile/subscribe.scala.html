@@ -9,18 +9,21 @@
 	</div>
 	
 	<div class="col-md-10 col-md-offset-1">
+		<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Availability</th>
+				<th>Last Modified</th>
+			</tr>
+		<thead>
+		<tbody>
 		@user.subscribeTo.map { house =>
-           <div class="col-md-3 info">
-           		<p class="text">house.name</p>
-			</div>
-			<div class="col-md-3 info">
-				<p class="text">house.owner_mail</p>
-			</div>
-			<div class="col-md-3 info">
-				<p class="text">house.availability</p>
-			</div>
-			<div class="col-md-3 info">
-				<p class="text">house.updated_time</p>
-			</div>
+			<tr>
+           	<td><a href="@routes.Houses.profile(house.id)">@house.name</a></td>
+			<td>@house.availability</td>
+			<td>@house.updatedTime</td>
         }
+        </tbody>
+        </table>
 	</div>

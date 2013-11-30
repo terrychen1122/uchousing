@@ -1,0 +1,289 @@
+@(result: com.avaje.ebean.Page[House], currentSortBy: String, currentFilter: String, size: String, price: String, htype: String, ltype: String, rate: Integer)
+
+@****************************************
+* Helper functions    *
+****************************************@
+@link(newPage:Int, s:String, p:String, htype:String, ltype:String, rate:Int) = @{
+    // Generate the link
+    routes.SearchEngine.fetchSearch(newPage, currentSortBy, currentFilter, s, p, htype, ltype, rate)
+    //routes.Application.index()
+}
+
+@main("Search", 1){
+	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/search.css")">
+	
+	
+	<div class="container ui-main">
+		<!-- Search -->
+		<div class="row ui-searchbar">
+			<form method="GET" action="@link(0, "", "", "", "", 0)">
+				<div class="input-group">
+					<input type="search" id="searchbox" name="f" class="form-control" value="@currentFilter" placeholder="Search ...">
+					<div class="input-group-btn">
+						<input type="submit" id="searchsubmit" value="Search" class="btn btn-primary">
+					</div>
+				</div>
+        	</form>
+		</div>
+		
+		<!-- Tags -->
+		<div class="row ui-tag">
+			<table class="table table-striped">
+				<tbody>
+					<tr class="">
+						<td>Size</td>
+						<td><a href="javascript:void" class="size-tag" id="lt300">&lt300</a></td>
+						<td><a href="javascript:void" class="size-tag" id="300to600">300~600</a></td>
+						<td><a href="javascript:void" class="size-tag" id="600to1000">600~1000</a></td>
+						<td><a href="javascript:void" class="size-tag" id="gt1000">&gt1000</a></td>
+					</tr>
+					<tr>
+						<td>Price</td>
+						<td><a href="javascript:void" class="price-tag" id="lt500">&lt500</a></td>
+						<td><a href="javascript:void" class="price-tag" id="500to1000">500~1000</a></td>
+						<td><a href="javascript:void" class="price-tag" id="1000to1500">1000~1500</a></td>
+						<td><a href="javascript:void" class="price-tag" id="gt1500">&gt1500</a></td>
+					</tr>
+					<tr class="">
+						<td>Type</td>
+						<td><a href="javascript:void" class="type-tag" id="studio">Studio</a></td>
+						<td><a href="javascript:void" class="type-tag" id="one-bedroom">One Bedroom</a></td>
+						<td><a href="javascript:void" class="type-tag" id="two-bedroom">Two Bedrooms</a></td>
+						<td><a href="javascript:void" class="type-tag" id="three-bedroom">Three Bedrooms</a></td>
+					</tr>
+					<tr>
+						<td>Leasing Type</td>
+						<td><a href="javascript:void" class="ltype-tag" id="sublease">sublease</a></td>
+						<td><a href="javascript:void" class="ltype-tag" id="one-year">one year</a></td>
+						<td><a href="javascript:void" class="ltype-tag" id="month">month</a></td>
+						<td><a href="javascript:void" class="ltype-tag" id="negotiated">negotiated</a></td>
+					</tr>
+					<tr class="">
+						<td>Rate</td>
+						<td><a href="javascript:void" class="rate-tag" id="1">&#8805 1</a></td>
+						<td><a href="javascript:void" class="rate-tag" id="2">&#8805 2</a></td>
+						<td><a href="javascript:void" class="rate-tag" id="3">&#8805 3</a></td>
+						<td><a href="javascript:void" class="rate-tag" id="4">&#8805 4</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<!-- Data layout -->
+		<div class="row ui-body">
+		<!-- Sort options -->
+			<div class="ui-sort-option">
+				@if(result.getTotalRowCount() > 0){
+				<p>Page @(result.getPageIndex()+1)/@result.getTotalPageCount() from @result.getTotalRowCount() results</p>
+				}else{
+				<p>Page 0/0 from 0 results</p>
+				}
+				<div class="ui-sort-selector">
+					<p>Sort by </p>
+					<select name="sortBy" id="sort-options">
+						<option value="updatedTime" @if(currentSortBy=="updatedTime"){selected}>Most Recent</option>
+						<option value="rate" @if(currentSortBy=="rate"){selected}>Ave. Rate</option>
+						<option value="priceHtoL" @if(currentSortBy=="priceHtoL"){selected}>Price: High to Low</option>
+						<option value="priceLtoH" @if(currentSortBy=="priceLtoH"){selected}>Price: Low to High</option>
+						<option value="sizeLtoS" @if(currentSortBy=="sizeLtoS"){selected}>Size: Large to Small</option>
+						<option value="sizeStoL" @if(currentSortBy=="sizeStoL"){selected}>Size: Small to Large</option>
+					</select>
+				</div>
+			</div>
+		<!-- Display data -->
+			<div class="ui-data-section">
+			@if(result.getTotalRowCount() == 0){
+				<p>No Results in Database.</p>
+			}
+			@for(house <- result.getList){
+				<div class="ui-data">
+					<div class="ui-data-img">
+					<img src="@routes.Assets.at("images/No-image-available.jpg")" alt="" class="img-thumbnail">
+					</div>
+					<div class="ui-data-detail">
+							<div class="col-md-3 data-entry">Name: <a href="@routes.Houses.profile(house.id)">@house.name</a></div>
+							<div class="col-md-5 data-entry">by <a href="@routes.UserProfile.profile(house.owner.email)">@house.owner.fname @house.owner.lname</a></div><br>
+							<div class="col-md-1 data-entry">Address: </div>
+							<div class="col-md-3 data-entry">@house.addressLine1</div><br>
+							@if(house.addressLine2!=""){
+							<div class="col-md-3 col-md-offset-1 data-entry">@house.addressLine2</div><br>
+							}
+							<div class="col-md-3 col-md-offset-1 data-entry">@house.city @house.state</div><br>
+							<div class="col-md-3 col-md-offset-1 data-entry">@house.zipCode</div><br>
+							<div class="col-md-1 data-entry">Size:</div>
+							<div class="col-md-3 data-entry">@house.size ft&sup2</div><br>
+							<div class="col-md-1 data-entry">Price:</div>
+							<div class="col-md-4 data-entry">$@house.price / Rate: @house.rate</div>
+					</div>
+				</div>
+			}
+			<div class="ui-data-navigator">
+				<ul class="pagination">
+                @if(result.hasPrev) {
+                    <li class="prev">
+                        <a href="@link(result.getPageIndex - 1, size, price, htype, ltype, rate)">&larr; Previous</a>
+                    </li>
+                } else {
+                    <li class="prev disabled">
+                        <a>&larr; Previous</a>
+                    </li>
+                }
+                <li class="current">
+                    <a>Displaying @result.getDisplayXtoYofZ(" to "," of ")</a>
+                </li>
+                @if(result.hasNext) {
+                    <li class="next">
+                        <a href="@link(result.getPageIndex + 1, size, price, htype, ltype, rate)">Next &rarr;</a>
+                    </li>
+                } else {
+                    <li class="next disabled">
+                        <a>Next &rarr;</a>
+                    </li>
+                }
+            </ul>
+			</div>
+			</div>
+		<!-- Page options -->
+		</div>
+	</div>
+	
+	
+	<script>
+		$(document).ready(function(){
+			if("@size"!=""){
+				$('#@size').addClass("selected-tag");
+			}
+			if("@price"!=""){
+				$('#@price').addClass("selected-tag");
+			}
+			if("@htype"!=""){
+				$('#@htype').addClass("selected-tag");
+			}
+			if("@ltype"!=""){
+				$('#@ltype').addClass("selected-tag");
+			}
+			if("@rate"!=""){
+				$('#@rate').addClass("selected-tag");
+			}
+		});
+	
+		$('#sort-options').on('change', function(){
+			window.location="/search?p=@result.getPageIndex&s=".concat(this.value).concat("&f=@currentFilter");
+		});
+		$('.size-tag').click(function(){
+			var context = $(this).attr('id');
+			var currentSize = "@size";
+			if(context==currentSize){
+				window.location="@link(0, "", price, htype, ltype, rate)";
+			}else{
+			switch(context){
+			case 'lt300':
+				window.location="@link(0, "lt300", price, htype, ltype, rate)";
+				break;
+			case '300to600':
+				window.location="@link(0, "300to600", price, htype, ltype, rate)";
+				break;
+			case '600to1000':
+				window.location="@link(0, "600to1000", price, htype, ltype, rate)";
+				break;
+			case 'gt1000':
+				window.location="@link(0, "gt1000", price, htype, ltype, rate)";
+				break;
+			}
+			}
+		});
+		
+		$('.price-tag').click(function(){
+			var context = $(this).attr('id');
+			var currentPrice = "@price";
+			if(context==currentPrice){
+				window.location="@link(0, size, "", htype, ltype, rate)";
+			}else{
+			switch(context){
+			case 'lt500':
+				window.location="@link(0, size, "lt500", htype, ltype, rate)";
+				break;
+			case '500to1000':
+				window.location="@link(0, size, "500to1000", htype, ltype, rate)";
+				break;
+			case '1000to1500':
+				window.location="@link(0, size, "1000to1500", htype, ltype, rate)";
+				break;
+			case 'gt1500':
+				window.location="@link(0, size, "gt1500", htype, ltype, rate)";
+				break;
+			}
+			}
+		});
+		
+		$('.type-tag').click(function(){
+			var context = $(this).attr('id');
+			var currentType = "@htype";
+			if(context==currentType){
+				window.location="@link(0, size, price, "", ltype, rate)";
+			}else{
+			switch(context){
+			case 'studio':
+				window.location="@link(0, size, price, "studio", ltype, rate)";
+				break;
+			case 'one-bedroom':
+				window.location="@link(0, size, price, "one-bedroom", ltype, rate)";
+				break;
+			case 'two-bedroom':
+				window.location="@link(0, size, price, "two-bedroom", ltype, rate)";
+				break;
+			case 'three-bedroom':
+				window.location="@link(0, size, price, "three-bedroom", ltype, rate)";
+				break;
+			}
+			}
+		}); 
+		
+		$('.ltype-tag').click(function(){
+			var context = $(this).attr('id');
+			var currentLtype = "@ltype";
+			if(context==currentLtype){
+				window.location="@link(0, size, price, htype, "", rate)";
+			}else{
+			switch(context){
+			case 'sublease':
+				window.location="@link(0, size, price, htype, "sublease", rate)";
+				break;
+			case 'one-year':
+				window.location="@link(0, size, price, htype, "one-year", rate)";
+				break;
+			case 'month':
+				window.location="@link(0, size, price, htype, "month", rate)";
+				break;
+			case 'negotiated':
+				window.location="@link(0, size, price, htype, "negotiated", rate)";
+				break;
+			}
+			}
+		});
+		
+		$('.rate-tag').click(function(){
+			var context = $(this).attr('id');
+			var currentRate = "@rate";
+			if(context==currentRate){
+				window.location="@link(0, size, price, htype, ltype, 0)";
+			}else{
+			switch(context){
+			case '1':
+				window.location="@link(0, size, price, htype, ltype, 1)";
+				break;
+			case '2':
+				window.location="@link(0, size, price, htype, ltype, 2)";
+				break;
+			case '3':
+				window.location="@link(0, size, price, htype, ltype, 3)";
+				break;
+			case '4':
+				window.location="@link(0, size, price, htype, ltype, 4)";
+				break;
+			}
+			}
+		});
+	</script>
+
+}
