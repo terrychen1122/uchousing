@@ -30,17 +30,9 @@ public class SearchEngine extends Controller {
 	}
 	
 	public static Result submitSearch(int page, String sortBy, String filterType, String filter){
-		Map<String, String[]> queryParams = request().body().asFormUrlEncoded();
-//		String filter = queryParams.get("f")[0];
-//		String sortBy = queryParams.get("sortBy")[0];
 		System.out.println("p:"+page + ", s:"+sortBy+", t:"+filterType+", f: "+filter);
 		return redirect(
 		        routes.SearchEngine.fetchSearch(page, sortBy, filter, "", "", "", "", 0)
 			    );
-	}
-	
-	public static Result processSearch(){
-		
-		return ok();
 	}
 }

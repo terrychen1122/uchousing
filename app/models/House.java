@@ -83,7 +83,7 @@ public class House extends Model{
 	public static List<House> recentUpdated(int pageSize, int page){
 		return find.
 				where().
-				orderBy("updatedTime" + " " + "asc").
+				orderBy("updatedTime" + " " + "desc").
 				findPagingList(pageSize).
 				getPage(page).
 				getList();
@@ -218,7 +218,6 @@ public class House extends Model{
 		}else{
 			house.transportations.add(Transportation.create(trans));
 		}
-		//house.saveManyToManyAssociations("transportations");
 	}
 	
 	public static void setService(Long id, Long serviceID){

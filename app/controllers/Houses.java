@@ -49,7 +49,7 @@ public class Houses extends Controller{
 	
 	public static Result commentPost(Long id){
 		House house = null;
-		house = house.find.byId(id);
+		house = House.find.byId(id);
 		if(house == null){
 			Logger.info("house not found.");
 			return ok();
@@ -67,7 +67,7 @@ public class Houses extends Controller{
 	
 	public static Result commentDelete(Long id){
 		Comment comment = null;
-		comment = comment.find.byId(id);
+		comment = Comment.find.byId(id);
 		if(comment == null){
 			Logger.info("comment not found.");
 			return ok();

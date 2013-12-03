@@ -98,7 +98,7 @@ public class ProviderProfile extends Controller{
 	
 
 	/*
-	 * 
+	 * 		helper filter functions
 	 */
 	private static void filterServiceInput(Map<String, String[]> data, Form<House> house){
 		boolean water = (data.get("water")==null)? false: true;

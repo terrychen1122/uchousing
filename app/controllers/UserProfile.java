@@ -52,7 +52,6 @@ public class UserProfile extends Controller{
 		if(profileUser != null) {
 			return ok(profileFrame.render(profileUser, isEditable, mainWindow, form(HouseProvider.class)));
 		} else {
-			//TEMP
 			return redirect(routes.Application.index());
 		}
 	}
@@ -122,7 +121,6 @@ public class UserProfile extends Controller{
 		Map<String, String[]> queryParams = request().body().asFormUrlEncoded();
 		Long id = Long.parseLong(queryParams.get("houseID")[0], 10);
 		if(!session().isEmpty()){
-			System.out.println("id:"+id);
 			Users.subscribeToHouse(session().get("email"), id);
 		}
 		return ok();

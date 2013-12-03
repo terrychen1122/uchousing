@@ -66,7 +66,6 @@ public class Application extends Controller {
 		if(session().isEmpty()){
 			return ok(login.render(form(Login.class)));
 		} else {
-			//TEMP
 			return index();
 		}
     }
