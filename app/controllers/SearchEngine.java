@@ -15,12 +15,18 @@ import views.html.search.*;
 
 public class SearchEngine extends Controller {
 	
+	/*
+	 * 		Default search page
+	 */
 	public static Result searchPage(){
 		return redirect(
 		        routes.SearchEngine.fetchSearch(0, "updatedTime", "", "", "", "", "", 0)
 			    );
 	}
  
+	/*
+	 * 		Handle search query and retrieve parameters from URL
+	 */
 	public static Result fetchSearch(int page, String sortBy, String filter, String size, String price, String htype, String ltype, int rate){
 		return ok(
 	            search.render(

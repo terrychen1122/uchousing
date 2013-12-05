@@ -18,9 +18,13 @@ import views.html.houses.*;
 
 public class Houses extends Controller{
 	
+	/*
+	 * 		Render House profile page
+	 */
 	public static Result profile(Long id){
 		House house = null;
 		house = House.find.byId(id);
+		// Check for the house id
 		if(house == null){
 			Logger.info("house not found.");
 			return ok();
@@ -33,6 +37,9 @@ public class Houses extends Controller{
 		return ok(hprofile.render(house, images, edit));
 	}
 	
+	/*
+	 * 		Handle user rating action and update database
+	 */
 	public static Result rate(Long id, int r){
 		House house = null;
 		house = House.find.byId(id);
@@ -40,6 +47,8 @@ public class Houses extends Controller{
 			Logger.info("house not found.");
 			return ok();
 		}
+		
+		//	average rate calculation
 		double totalRates = house.rate * house.totoalRates;
 		int totalRaters = ++house.totoalRates;
 		house.rate = (totalRates + r)/totalRaters;
@@ -47,6 +56,9 @@ public class Houses extends Controller{
 		return redirect(routes.Houses.profile(id));
 	}
 	
+	/*
+	 * 		Handle user comment action and update database
+	 */
 	public static Result commentPost(Long id){
 		House house = null;
 		house = House.find.byId(id);
@@ -65,6 +77,9 @@ public class Houses extends Controller{
 		return redirect(routes.Houses.profile(id));
 	}
 	
+	/*
+	 * 		Delete comment
+	 */
 	public static Result commentDelete(Long id){
 		Comment comment = null;
 		comment = Comment.find.byId(id);

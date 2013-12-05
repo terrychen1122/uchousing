@@ -34,6 +34,9 @@ public class Comment extends Model{
 	 */
 	public static Finder<Long, Comment> find = new Finder<Long, Comment>(Long.class, Comment.class);
 	
+	/**
+	 * 		Return all comments of a house
+	 */
 	public static List<Comment> getCommentsByHouse(Long id){
 		return find.where()
                 .eq("commentTo.id", id)

@@ -10,11 +10,14 @@ GET     /login                              controllers.Application.login()
 POST    /login                              controllers.Application.authenticate()
 GET     /logout                             controllers.Application.logout()
 
+# Contact
 GET		/contact							controllers.Application.contact()
 
+# Registration
 GET		/register							controllers.Application.register()
 POST	/register							controllers.Application.processRegistration()
 
+# User profile 
 GET		/profile/:id						controllers.UserProfile.profile(id:String)
 GET		/profile/:id/info					controllers.UserProfile.profile(id:String)
 POST	/profile/:id/info					controllers.UserProfile.processApplication(id:String)
@@ -28,7 +31,7 @@ POST	/profile/unsubscribe/				controllers.UserProfile.unsubscribeHouse()
 POST	/profile/follow/					controllers.UserProfile.followUser()
 POST	/profile/unfollow/					controllers.UserProfile.unfollowUser()
 
-
+# House provider profile
 GET		/pprofile/:id						controllers.ProviderProfile.profile(id:String)
 GET		/pprofile/house/:id					controllers.ProviderProfile.profile(id:String)
 POST	/pprofile/:id						controllers.ProviderProfile.editProfile(id:String)
@@ -37,11 +40,13 @@ POST	/pprofile/house/del/				controllers.ProviderProfile.deleteHouse()
 POST	/pprofile/house/:id					controllers.ProviderProfile.addHouse(id:String)		
 POST	/pprofile/house/:id					controllers.ProviderProfile.editHouse(id:Long)
 
+# House profile
 GET		/house/:id							controllers.Houses.profile(id:Long)
 GET		/house/rate/:id/:r					controllers.Houses.rate(id:Long, r:Int)
 POST	/house/:id							controllers.Houses.commentPost(id:Long)
 GET		/comment/delete/:id					controllers.Houses.commentDelete(id:Long)
 
+# Search Engine
 GET		/searchPage							controllers.SearchEngine.searchPage()
 GET		/search								controllers.SearchEngine.fetchSearch(p:Int ?= 0, s ?= "updatedTime", f ?= "", size ?= "", price ?= "", t ?= "", lt ?= "", r:Int ?= 0)
 

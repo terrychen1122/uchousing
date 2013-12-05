@@ -64,6 +64,9 @@ public class Users extends Model {
             .findUnique();
     }
     
+    /**
+     * Validate a user registration
+     */
     public String validate() {
     	if(find.where().eq("email", email).findUnique() != null) {
     		return "Email: " + email + " is already existed";
@@ -71,6 +74,9 @@ public class Users extends Model {
         return null;
     }
     
+    /*
+     * 		Edit user data
+     */
     public static void edit(String email, String name, String passwd, String phone, String type, String neighbor) {
     	Users user = find.ref(email);
     	user.name = name;
@@ -81,24 +87,42 @@ public class Users extends Model {
     	user.update();
     }
     
+    /*
+     * 		Set house provider flag
+     */
     public static void setHouseProvider(String email) {
     	Users user = find.ref(email);
     	user.isHouseProvider = 1;
     	user.update();
     }
     
+    /**
+     * Set profile image
+     * @param email		user email
+     * @param url		url
+     */
     public static void setProfileImge(String email, String url){
     	Users user = find.ref(email);
     	user.profileImage = url;
     	user.update();
     }
     
+    /**
+     * Subscribe to a house
+     * @param email		user email
+     * @param id		house id
+     */
     public static void subscribeToHouse(String email, Long id){
     	Users user = find.ref(email);
     	user.subscribeTo.add(House.find.ref(id));
     	user.saveManyToManyAssociations("subscribeTo");
     }
     
+    /**
+     * Unsubscribe to a house
+     * @param email		user email
+     * @param id		house id
+     */
     public static void unsubscribeToHouse(String email, Long id){
     	Users user = find.ref(email);
     	int index = user.subscribeTo.indexOf(House.find.ref(id));
@@ -108,12 +132,22 @@ public class Users extends Model {
     	}
     }
     
+    /**
+     * Follow to other user	
+     * @param email				user email
+     * @param followingEmail	following user email
+     */
     public static void followToUser(String email, String followingEmail){
     	Users user = find.ref(email);
     	user.followTo.add(Users.find.ref(followingEmail));
     	user.saveManyToManyAssociations("followTo");
     }
     
+    /**
+     * Unfollow to a user
+     * @param email				user email
+     * @param followingEmail	following user email
+     */
     public static void unfollowToUser(String email, String followingEmail){
     	Users user = find.ref(email);
     	Users follow = find.ref(followingEmail);

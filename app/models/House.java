@@ -90,6 +90,9 @@ public class House extends Model{
 		
 	}
 	
+	/*
+	 * 		Handle search query base on sort type, keyword, size, price, house type, leasing type, and rate
+	 */
 	public static Page<House> fetch(int page, int pageSize, String sortBy, String filter, String size, String price, String htype, String ltype, int rate){
 		String order;
 		if(sortBy.equals("updatedTime")||sortBy.equals("priceHtoL")||sortBy.equals("sizeLtoS")||sortBy.equals("rate")){
@@ -177,6 +180,9 @@ public class House extends Model{
 		           .findList();
 	}
 	
+	/*
+	 * 		Update house from form data
+	 */
 	public void updateWithForm(Map<String,String[]> data){
 		this.name = data.get("name")[0];
 		this.houseType = data.get("houseType")[0];
@@ -207,6 +213,11 @@ public class House extends Model{
 		}
 		this.update();
 	}
+	
+	
+	/*
+	 * 		Helper functions for updating houses from form data
+	 */
 	
 	public static void addTransportation(Long id, String trans){
 		List<Transportation> arrayT = Transportation.find.where().eq("line", trans).findList();

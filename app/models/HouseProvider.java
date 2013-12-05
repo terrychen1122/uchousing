@@ -55,6 +55,9 @@ public class HouseProvider extends Model {
      */
 	public static Finder<String,HouseProvider> find = new Finder<String,HouseProvider>(String.class, HouseProvider.class);
 	
+	/*
+	 * 		Update data by passing form data
+	 */
 	public void updateWithForm(Map<String, String[]> data){
 		this.occupation = data.get("occupation")[0];
 		this.providerType = data.get("providerType")[0];

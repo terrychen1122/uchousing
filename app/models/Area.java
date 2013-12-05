@@ -18,6 +18,9 @@ public class Area  {
 		return all;
 	}
 	
+	/*
+	 * 	Get list of area for form option
+	 */
 	public static Map<String,String> options() {
         LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
         for(String c: Area.list()) {
@@ -26,6 +29,9 @@ public class Area  {
         return options;
     }
 	
+	/*
+	 * 	Get list of area for form option
+	 */
 	public static List<String> optionList(){
 		return Area.list();
 	}

@@ -11,6 +11,8 @@
 				<h1>House Setting: @house.name </h1>
 			</div>
 			<div class="col-md-8 col-md-offset-2 well">
+				
+				<!-- House setting form -->
 				<form role="form" id="set-house-form" method="post" action="@routes.ProviderProfile.editHouse(house.id)">
 					<div class="form-group">
           				<div class="clearfix">
@@ -205,6 +207,8 @@
 	</div>
 	
 	<script>
+	
+		/* Form validation */
 		$("#set-house-form").validate({
 			rules: {
 				name: "required",
@@ -235,10 +239,12 @@
 			}
 		});
 		
+		/* Cancel setting and go back */
 		$("#cancel-button").click(function(){
 			window.history.back();
 		});
 		
+		/*	Ajax post event for house deletion */
 		$('#delete-button').click(function(){
 			var i = '@house.id';
 			var jdata = { houseID : i };

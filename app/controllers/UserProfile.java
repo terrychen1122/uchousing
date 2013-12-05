@@ -24,10 +24,16 @@ import org.codehaus.jackson.JsonNode;
 
 public class UserProfile extends Controller{
 
+	/*
+	 * 		Render user profile page
+	 */
 	public static Result profile(String email){
 		return profile(email, "info");
 	}
 	
+	/*
+	 * 		Handle edit profile action
+	 */
 	public static Result editProfile(String email){
 		if(!session().isEmpty()&&session().get("email").equals(email)){
 			return profile(email, "edit");
@@ -35,14 +41,23 @@ public class UserProfile extends Controller{
 		return redirect(routes.Application.index());
 	}
 	
+	/*
+	 * 		Render subscription page
+	 */
 	public static Result getSubscribe(String email){
 		return profile(email, "subscribe");
 	}
 	
+	/*
+	 * 		Render follow page
+	 */
 	public static Result getFollow(String email){
 		return profile(email, "follow");
 	}
 	
+	/*
+	 * 		Render profile page based on mainWindow (different sub-parts)
+	 */
 	public static Result profile(String email, String mainWindow) {
 		int isEditable = 0;
 		if(!session().isEmpty()){
@@ -58,6 +73,9 @@ public class UserProfile extends Controller{
 	
 	/**************** POST REQUEST ************************/
 	
+	/*
+	 * 		Edit profile info
+	 */
 	public static Result processEdit(String email){
 		if(!session().isEmpty()&&session().get("email").equals(email)){
 				Map<String, String[]> formData = request().body().asFormUrlEncoded();
@@ -73,6 +91,9 @@ public class UserProfile extends Controller{
 		return redirect(routes.Application.index()); 
 	}
 	
+	/*
+	 * 		Submit application of becoming house provider
+	 */
 	public static Result processApplication(String email){
 		if(!session().isEmpty()&&session().get("email").equals(email)){
 			Form<HouseProvider> providerForm = form(HouseProvider.class).bindFromRequest();
@@ -89,6 +110,9 @@ public class UserProfile extends Controller{
 		return redirect(routes.Application.index());
 	}
 	
+	/*
+	 * 		Handle user profile image change
+	 */
 	public static Result profileImageChange(String email){
 		if(!session().isEmpty()&&session().get("email").equals(email)){
 			Map<String, String[]> queryParams = request().body().asFormUrlEncoded();
@@ -99,6 +123,9 @@ public class UserProfile extends Controller{
 		return redirect(routes.Application.index());
 	}
 	
+	/*
+	 * 		Follow user action
+	 */
 	public static Result followUser(){
 		Map<String, String[]> queryParams = request().body().asFormUrlEncoded();
 		String email = queryParams.get("email")[0];
@@ -108,6 +135,9 @@ public class UserProfile extends Controller{
 		return ok();
 	}
 	
+	/*
+	 * 		Unfollow action
+	 */
 	public static Result unfollowUser(){
 		Map<String, String[]> queryParams = request().body().asFormUrlEncoded();
 		String email = queryParams.get("email")[0];
@@ -117,6 +147,9 @@ public class UserProfile extends Controller{
 		return profile(email);
 	}
 	
+	/*
+	 * 		Subscribe action
+	 */
 	public static Result subscribeHouse(){
 		Map<String, String[]> queryParams = request().body().asFormUrlEncoded();
 		Long id = Long.parseLong(queryParams.get("houseID")[0], 10);
@@ -126,6 +159,9 @@ public class UserProfile extends Controller{
 		return ok();
 	}
 	
+	/*
+	 * 		Unsubscribe action
+	 */
 	public static Result unsubscribeHouse(){
 		Map<String, String[]> queryParams = request().body().asFormUrlEncoded();
 		Long id = Long.parseLong(queryParams.get("houseID")[0], 10);

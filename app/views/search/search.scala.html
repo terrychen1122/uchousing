@@ -113,7 +113,7 @@
 							<div class="col-md-1 data-entry">Size:</div>
 							<div class="col-md-3 data-entry">@house.size ft&sup2</div><br>
 							<div class="col-md-1 data-entry">Price:</div>
-							<div class="col-md-4 data-entry">$@house.price / Rate: @house.rate</div>
+							<div class="col-md-4 data-entry">$@house.price / Rate: @BigDecimal(house.rate).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble</div>
 					</div>
 				</div>
 			}
@@ -149,6 +149,7 @@
 	
 	
 	<script>
+		/* highlight selected tag */
 		$(document).ready(function(){
 			if("@size"!=""){
 				$('#@size').addClass("selected-tag");
@@ -166,10 +167,16 @@
 				$('#@rate').addClass("selected-tag");
 			}
 		});
-	
+		
+		/* Submit the form by sort-option change event */
 		$('#sort-options').on('change', function(){
 			window.location="/search?p=@result.getPageIndex&s=".concat(this.value).concat("&f=@currentFilter");
 		});
+		
+		/*
+		 *		Tag event
+		 */
+		
 		$('.size-tag').click(function(){
 			var context = $(this).attr('id');
 			var currentSize = "@size";

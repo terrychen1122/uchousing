@@ -40,6 +40,7 @@
   			</a>
 	</div>
 	<div class="ui-body-section">
+		<!-- House general informaion -->
 		<div class="section-inner">
 			<div class="row">
 				<div class="col-md-3"><p>Owner: </p></div>
@@ -66,6 +67,7 @@
 				<div class="col-md-5"><p>@house.neighbor</p></div>
 			</div>
 			<div class="row">
+				<!-- Rate function -->
 				<div class="col-md-3"><p>Rate: </p></div>
 				<div class="col-md-3"><p>@BigDecimal(house.rate).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble/5</p></div>
 				<div class="btn-group">
@@ -90,6 +92,7 @@
 		</div>
 	</div>
 	<div class="inner-tool-bar">
+		<!-- Tab section containing description, address, map, and comment -->
 		<ul class="nav nav-tabs" id="myTab">
   			<li><a href="#description" data-toggle="tab">Description</a></li>
   			<li><a href="#address" data-toggle="tab">Address</a></li>
@@ -97,6 +100,8 @@
   			<li><a href="#comment" data-toggle="tab">Comments</a></li>
 		</ul>
 		<div class="tab-content">
+		
+			<!-- Description -->
 			<div class="tab-pane active" id="description">
 				<br>
 				<blockquote>
@@ -128,6 +133,8 @@
 					</p>
 				</blockquote>
 			</div>
+			
+			<!-- Address -->
   			<div class="tab-pane" id="address">
   				<br>
   				<blockquote>
@@ -139,9 +146,13 @@
 				</address>
 				</blockquote>
   			</div>
+  			
+  			<!-- Google Map -->
   			<div class="tab-pane" id="map">
   				<div id="googleMap"></div>
   			</div>
+  			
+  			<!-- Comments -->
   			<div class="tab-pane" id="comment">
   			@if(session().get("email")!=null){
   				<div class="ui-comment-input">
@@ -174,6 +185,7 @@
 </div>
 
 <script>
+/* POST subscribe action using ajax */
 $('#subscribe-button').click(function(){
 	var e = '@house.id';
 	var jdata = { houseID: e};
@@ -182,6 +194,7 @@ $('#subscribe-button').click(function(){
 	});
 });
 
+/* POST unsubscribe action using ajax */
 $('#unsubscribe-button').click(function(){
 	var e = '@house.id';
 	var jdata = {houseID: e};
@@ -190,6 +203,7 @@ $('#unsubscribe-button').click(function(){
 	});
 });
 
+/* Google Map API and Geocorder(learn from Stackover) */
 var map;
 var geocoder;
 var address = "@house.addressLine1, @house.addressLine2, @house.city, @house.state, @house.zipCode";
